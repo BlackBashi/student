@@ -1,0 +1,67 @@
+ 
+h1{
+    font: bold 70px Roboto;
+    
+}
+
+.campName{
+    font: bold 20px Hack;
+}
+.campText{
+    font: bold 20px Hack;
+}
+.campSala{
+    font: bold 20px Hack;
+}
+.campTextS{
+    font: bold 20px Hack;
+}
+.campNota{
+    font: bold 20px Hack;
+}
+.campNota1{
+    font: bold 20px Hack;
+}
+.campNota2{
+    font: bold 20px Hack;
+}
+.campNota3{
+    font: bold 20px Hack;
+}
+.campTextN{
+    font: bold 20px Hack;
+}
+.campTextN1{
+    font: bold 20px Hack;
+}
+.campTextN2{
+    font: bold 20px Hack;
+}
+.campTextN3{
+    font: bold 20px Hack;
+}
+.bot{
+    font: bold 20px Hack;
+}
+.bot1{
+    font: bold 20px Hack;
+}
+.bot2{
+    font: bold 20px Hack;
+}
+
+.cap{
+    font: bold 60px Hack;
+}
+
+.central{
+    top: 10cm;
+}
+#tmcont{
+    width: 900px;
+    font: Roboto;
+}
+#tmfooter{
+    width: 50cm;
+    font: Roboto;
+}

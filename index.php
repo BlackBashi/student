@@ -2,15 +2,15 @@
 
 require_once("vendor/autoload.php");
 
-$app = new \Slim\Slim();
+use \Slim\Slim;
+
+
+$app = new Slim;
 
 $app->config('debug', true);
 
-$app->get('/', function() {
-    
-	echo "OK";
-
-});
+require_once("site.php");
+require_once("function.php");
 
 $app->run();
 
