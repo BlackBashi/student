@@ -5,6 +5,7 @@ use Students\Classes\Page;
 use Students\Classes\DB\Sql;
 use Students\Classes\alunos;
 use Students\Classes\register;
+use Students\Classes\PageAdmin;
 
 session_start();
 
@@ -112,4 +113,14 @@ $app->get('/logout', function(){
 	session_destroy();
 	$page = new Page();
 	$page->setTpl("logout");
+});
+
+$app->get('/adm', function(){
+	$page = new PageAdmin();
+	$page->setTpl("secretaria");
+});
+
+$app->get('/adm/cadastrar/alunos', function(){
+	$page = new PageAdmin();
+	$page->setTpl("registerAlunos");
 });

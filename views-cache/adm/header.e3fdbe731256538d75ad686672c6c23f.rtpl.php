@@ -14,23 +14,23 @@
     <link rel="stylesheet" href="/arq/css/estilos.css">
     <title>Teste</title>
 </head>
-<body class="p-3 mb-2 bg-dark text-dark" >
-    <nav class="navbar navbar-expand-lg p-3 mb-2 bg-light text-dark" style="font: normal 23px Robo" >
+<body class="p-3 mb-2 text-dark" style="background-color: #333333" >
+    <nav class="navbar navbar-expand-lg p-3 mb-2 text-dark" style="font: normal 23px Robo; background-color: #F0F0D8" >
         <img src="/arq/img/logo.png"alt="Imagem responsiva" href="/">
         <div class="container">
-            <a class="navbar-brand text-dark" href="/">Inicio</a>
+            <a class="navbar-brand text-dark" href="/">Cadastrar</a>
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSite">
                 <span class="navbar-toggler-icon"></span>
             </button>
             <div class="collapse navbar-collapse" id="navbarSite">
                 <ul class="navbar-nav">
                     <li class="nav-item">
-                        <a class="nav-link text-dark" href="/register">Registrar</a>
+                        <a class="nav-link text-dark" href="/register">Informações</a>
                     </li>
                 </ul>
                 <ul class="navbar-nav">
                         <li class="nav-item">
-                            <a class="nav-link text-dark" href="/professor">Professores</a>
+                            <a class="nav-link text-dark" href="/professor">Sair</a>
                         </li>
                     </ul>
         </div>

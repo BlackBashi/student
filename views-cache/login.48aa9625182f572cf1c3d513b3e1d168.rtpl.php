@@ -6,7 +6,7 @@
             <input class="form-control" type="text"  name="deslogin" placeholder="Digite o seu login"><br>
             <label form="despassword">Senha:</label>
             <input class="form-control" type="password"  name="despassword" placeholder="Digite a sua senha"><br>
-            <input class="btn btn-success" type="submit" value="Login"> <br>
+           <div class="text-right"> <input class="btn btn-success" type="submit" value="Login"> <br></div>
             <div class="text-center"><img src="/arq/img/PTK-icon.png" alt="Imagem responsiva" class="img-rounded"></div><br>
         </div>
     </form>

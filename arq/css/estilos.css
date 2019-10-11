@@ -55,7 +55,7 @@ h1{
 }
 
 .central{
-    top: 10cm;
+    top: 30cm;
 }
 #tmcont{
     width: 900px;
@@ -64,4 +64,19 @@ h1{
 #tmfooter{
     width: 50cm;
     font: Roboto;
+}
+.tmnav{
+    font: bold 60px Roboto;
+}
+.imagefin{
+    width: 75px;
+
+}
+.image1{
+    width: 86px;
+    
+}
+.image2{
+    width: 87px;
+    
 }
