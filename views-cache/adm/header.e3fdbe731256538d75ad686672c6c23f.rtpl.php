@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    
 
  
      <!-- Bootstrap CSS -->
@@ -14,23 +15,25 @@
     <link rel="stylesheet" href="/arq/css/estilos.css">
     <title>Teste</title>
 </head>
-<body class="p-3 mb-2 text-dark" style="background-color: #333333" >
+<body class="backimageadm" >
     <nav class="navbar navbar-expand-lg p-3 mb-2 text-dark" style="font: normal 23px Robo; background-color: #F0F0D8" >
         <img src="/arq/img/logo.png"alt="Imagem responsiva" href="/">
         <div class="container">
-            <a class="navbar-brand text-dark" href="/">Cadastrar</a>
-            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSite">
-                <span class="navbar-toggler-icon"></span>
-            </button>
+            <a class="navbar-brand text-dark btn dropdown-toggle" data-toggle="dropdown" href="/adm/cadastrar">Cadastrar</a>
             <div class="collapse navbar-collapse" id="navbarSite">
+                <ul class="dropdown-menu">
+                    <li class="nav-item">
+                        <a class="nav-link text-dark" href="#">Informações</a>
+                    </li>
+                </ul>
                 <ul class="navbar-nav">
                     <li class="nav-item">
-                        <a class="nav-link text-dark" href="/register">Informações</a>
+                        <a class="nav-link text-dark" href="/adm/noticias">Noticias</a>
                     </li>
                 </ul>
                 <ul class="navbar-nav">
                         <li class="nav-item">
-                            <a class="nav-link text-dark" href="/professor">Sair</a>
+                            <a class="nav-link text-dark" href="/logout">Sair</a>
                         </li>
                     </ul>
         </div>

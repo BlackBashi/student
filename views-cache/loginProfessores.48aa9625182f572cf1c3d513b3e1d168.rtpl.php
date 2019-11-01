@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<?php if(!class_exists('Rain\Tpl')){exit;}?><!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -15,20 +15,10 @@
     <link rel="stylesheet" href="/arq/css/estilos.css">
     <title>Teste</title>
 </head>
-<body class="backimageloginadm img-fluid">
+<body class="backimageloginprofessor img-fluid">
         <div class="container border border-dark shadow-lg w-50 p-5 text-dark"  id="tmcont" style="height: 19,2cm; font: normal 23px Robo; background-color: #F0F0F0" >
-            <h1 class="text-center">Secretaria <br>Login</h1><br>
-            {if="$error == 1"}
-                <div class="alert alert-danger" role="alert">
-                    Senha ou usuário incorreto!
-                </div>
-            {/if}
-            {if="$logout == 1"}
-            <div class="alert alert-success" role="alert">
-                Deslogado com sucesso!
-            </div>
-            {/if}
-            <form role="form" method="POST" action="/adm/login">
+            <h1 class="text-center">Professor <br>Login</h1><br>
+            <form role="form" method="POST" action="/ok">
                 <div class="form-group" style="font: normal 23px Robo" >
                     <label class="campName" form="deslogin" style="font: normal 23px Robo">Login:</label>
                     <input class="form-control" type="text"  name="deslogin" placeholder="Digite o seu login"><br>

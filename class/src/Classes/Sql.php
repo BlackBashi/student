@@ -19,6 +19,7 @@ class Sql{
 			Sql::PASSWORD
 		);
         $this->conn->setAttribute(\PDO::ATTR_ERRMODE, \PDO::ERRMODE_EXCEPTION);
+        $this->query("SET NAMES utf8");
     }
 
     private function setParams($statement, $parameters = array()){

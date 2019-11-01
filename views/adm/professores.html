@@ -1,0 +1,25 @@
+<div class="container">
+<div class="p-3 mb-2 text-dark" style="background-color: #F0F0D8">
+    <h1 class="text-center">Lista de professores:</h1><br>
+    <table class="table table-bordered table-dark">
+        <thead>
+            <tr>
+                <th scope="col">#</th>
+                <th scope="col">Nome</th>
+                <th scope="col">CPF</th>
+                <th scope="col">Código</th>
+            </tr>
+        </thead>
+        <tbody>
+            {loop="$professores"}
+            <tr>
+                <th scope="row">{$value.idprof}</th>
+                <td>{$value.desnome}</td>
+                <td>{$value.descpf}</td>
+                <td>{$value.descodigo}</td>
+            </tr> 
+            {/loop}
+        </tbody>
+      </table>     
+    </div>
+</div>

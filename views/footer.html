@@ -4,6 +4,10 @@
         <li><a href="/register" class="text-dark" >Cadastrar</a></li>
       </ul>
     </div> 
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/parallax/3.1.0/parallax.js"></script>
+    <script>
+      var rellax = new Rellax('.rellax');
+    </script>
   </body>
 </html>
   

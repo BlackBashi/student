@@ -7,100 +7,71 @@ use Students\Classes\alunos;
 use Students\Classes\register;
 use Students\Classes\PageAdmin;
 
-session_start();
+
 
 $app->get('/', function() {
-	register::sessionIsset();
-	$page = new Page();
-	$page->setTpl("login");
-});
+	register::issetLogin();
+	$Page = new Page;
+	$Register = new register;
 
-$app->post('/', function() {
-	$login = filter_input(INPUT_POST, 'deslogin', FILTER_SANITIZE_STRING);
-	$senha = filter_input(INPUT_POST, 'despassword', FILTER_SANITIZE_STRING);
-	$verify = new register();
-	if($login === ""){
-		throw new \Exception("Login Incorreto!");
-	}
-	$verify->valilogin($login, $senha);
-});
-
-$app->get('/calcular', function() {
-	register::verifyLogin();
-	$page = new Page();
-	$page->setTpl("calcular");
-});
-
-$app->post('/resultado', function(){
-	register::verifyLogin();
-	$nome = filter_input(INPUT_POST, 'namestudents', FILTER_SANITIZE_STRING);
-	$sala = filter_input(INPUT_POST, 'turma', FILTER_SANITIZE_STRING);
-	$nota = filter_input(INPUT_POST, 'nota', FILTER_SANITIZE_STRING);
-	$nota1 = filter_input(INPUT_POST, 'nota1', FILTER_SANITIZE_STRING);
-	$nota2 = filter_input(INPUT_POST, 'nota2', FILTER_SANITIZE_STRING);
-	$nota3 = filter_input(INPUT_POST, 'nota3', FILTER_SANITIZE_STRING);
-	$nota = floatval(str_replace(",", ".", $nota));
-	$nota1 = floatval(str_replace(",", ".", $nota1));
-	$nota2 = floatval(str_replace(",", ".", $nota2));
-	$nota3 = floatval(str_replace(",", ".", $nota3));
-
-	$students = new alunos();
-	$students->insert($nome, $sala, $nota, $nota1, $nota2, $nota3);
-
-	$total = $nota + $nota1 + $nota2 + $nota3;
-	$media = $total / 4;
+	$results = $Register->listNoticias();
 	
-	if($media >= 6){
-		$results = "APROVADO";
-	}else{
-		$results = "REPROVADO";
-	}
-
-	$page = new Page;
-	$page->setTpl("results", [
-		"namestudent"=>$nome,
-		"turma"=>$sala,
-		"nota"=>str_replace(".", ",",$nota),
-		"nota1"=>str_replace(".", ",",$nota1),
-		"nota2"=>str_replace(".", ",",$nota2),
-		"nota3"=>str_replace(".", ",",$nota3),
-		"media"=>str_replace(".", ",",$media),
+	$Page->setTpl("inicio", [
 		"results"=>$results
 	]);
+});
+
+
+$app->get('/login', function() {
+	register::issetLogin();
+	$Page = new Page([
+		"header"=>false,
+		"footer"=>false
+	]);
+
+	$logout = isset($_GET['logout']) && $_GET['logout'] ? 1 : 0;
+	$error = isset($_GET['error']) && $_GET['error'] ? 1 : 0;
+	$Page->setTpl("login", [
+		"error"=>$error,
+		"logout"=>$logout
+	]);
+});
+
+$app->post('/login', function() {
+	$Register = new register();
 	
+	$result = $Register->valilogin($_POST["deslogin"], $_POST["despassword"]);
+	if ($result) {
+		header("Location: /home");
+	} else {
+		header("Location: /login?error=1");
+	}
+	die;
 });
 
 $app->get('/register', function() {
-	register::sessionIsset();
+	register::issetLogin();
 	$page = new Page();
 	$page->setTpl("register");
 });
 
-$app->post('/registrado', function() {
-	register::verifyLogin();
-	register::sessionIsset();
-	$desnome = filter_input(INPUT_POST, 'desnome', FILTER_SANITIZE_STRING);
-	$deslogin = filter_input(INPUT_POST, 'deslogin', FILTER_SANITIZE_STRING);
-	$desaddress = filter_input(INPUT_POST, 'desaddress', FILTER_SANITIZE_STRING);
-	$despassword = filter_input(INPUT_POST, 'despassword', FILTER_SANITIZE_STRING);
-	$desturma = filter_input(INPUT_POST, 'desturma', FILTER_SANITIZE_STRING);
-
-	if($desnome  === "" || $deslogin === "" || $desaddress === "" || $despassword === "" || $desturma === ""){
+$app->post('/register', function() {
+	register::issetLogin();
+	if($_POST["desnome"]  === "" || $_POST["deslogin"] === "" || $_POST["desaddress"] === "" || $_POST["despassword"] === "" || $_POST["desturma"] === ""){
 		throw new \Exception("Preencha todos os campos!");
 	}
 
 	$cadastro = new register;
-	$cadastro->insert($desnome, $deslogin, $desaddress, $despassword, $desturma);
-	$page = new Page;
-	$page->setTpl("registrado", [
-		"desnome"=>$desnome
-	]);
+	$cadastro->insert($_POST["desnome"], $_POST["deslogin"], $_POST["desaddress"], $_POST["despassword"], $_POST["desturma"]);
 });
 
 $app->get('/professor', function() {
-	register::sessionIsset();
-	$page = new Page;
-	$page->setTpl("professores");
+	register::issetLogin();
+	$page = new Page([
+		"header"=>false,
+		"footer"=>false
+	]);
+	$page->setTpl("loginProfessores");
 });
 
 $app->get('/home', function(){
@@ -111,16 +82,6 @@ $app->get('/home', function(){
 
 $app->get('/logout', function(){
 	session_destroy();
-	$page = new Page();
-	$page->setTpl("logout");
-});
-
-$app->get('/adm', function(){
-	$page = new PageAdmin();
-	$page->setTpl("secretaria");
-});
-
-$app->get('/adm/cadastrar/alunos', function(){
-	$page = new PageAdmin();
-	$page->setTpl("registerAlunos");
+	header("Location: /login?logout=1");
+	die();
 });

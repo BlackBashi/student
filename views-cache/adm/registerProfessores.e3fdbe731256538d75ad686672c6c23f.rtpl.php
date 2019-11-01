@@ -1,4 +1,4 @@
-<div class="container p-3 mb-2 text-dark" id="tmcont" style="font: normal 23px Robo; background-color: #F0F0D8" >
+<?php if(!class_exists('Rain\Tpl')){exit;}?><div class="container p-3 mb-2 text-dark" id="tmcont" style="font: normal 23px Robo; background-color: #F0F0D8" >
     <h1 class="text-center">Cadastrar professor</h1> <br>
     <form role="form" method="POST" action="/adm/cadastrar/professor">
         <div class="form-group">
