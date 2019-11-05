@@ -64,16 +64,57 @@ $app->get('/adm/alunos', function(){
 
 $app->get('/adm/noticias', function(){
 	register::verifyLoginAdm();
-	$page = new PageAdmin();
+	$Page = new PageAdmin();
+	$Register = new register();
 
-	$page->setTpl("noticia");
+	$results = $Register->listNoticias();
+	$Page->setTpl("noticias", [
+		"noticias"=>$results
+	]);
 });
 
-$app->post('/adm/noticias', function(){
+
+$app->get('/adm/novanoticia', function(){
+	register::verifyLoginAdm();
+	$page = new PageAdmin();
+
+	$page->setTpl("novaNoticia");
+});
+
+$app->post('/adm/novanoticia', function(){
 	register::verifyLoginAdm();
 	$Register = new Register();
 	
-	$Register->insertNoticias($_POST['desautor'], $_POST['destitulo'], $_POST['desdetails']);
+	$Register->insertNoticias($_POST['desautor'], $_POST['destitulo'], $_POST['desdetails'], $_FILES['fileimage']['tmp_name']);
+});
+
+$app->get('/adm/editarnoticia', function(){
+	register::verifyLoginAdm();
+	$page = new PageAdmin();
+	$Register = new register;
+
+	$results = $Register->dadosNoticia($_GET[1]);
+	$page->setTpl("editarNoticia", [
+		"results"=>$results
+	]);
+});
+
+$app->post('/adm/editarnoticia', function(){
+	register::verifyLoginAdm();
+	$Register = new Register();
+
+	$Register->editNoticia($_POST['desautor'], $_POST['destitulo'], $_POST['desdetails'], $_GET[1]);
+	header("Location: /adm/noticias");
+	die;
+});
+
+$app->get('/adm/deletarnoticia', function(){
+	register::verifyLoginAdm();
+	$Register = new Register();
+
+	$Register->deleteNoticia($_GET[1]);
+	header("Location: /adm/noticias");
+	die;
 });
 
 $app->get('/adm/professores', function(){

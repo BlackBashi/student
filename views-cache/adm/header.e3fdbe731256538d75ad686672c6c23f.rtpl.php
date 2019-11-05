@@ -15,15 +15,18 @@
     <link rel="stylesheet" href="/arq/css/estilos.css">
     <title>Teste</title>
 </head>
-<body class="backimageadm" >
-    <nav class="navbar navbar-expand-lg p-3 mb-2 text-dark" style="font: normal 23px Robo; background-color: #F0F0D8" >
+<body class="backimageadm paralax" >
+    <nav class="navbar navbar-expand-lg p-3 mb-2 text-dark" style="font: normal 23px Robo; background-color: #CCCCCC" >
         <img src="/arq/img/logo.png"alt="Imagem responsiva" href="/">
         <div class="container">
-            <a class="navbar-brand text-dark btn dropdown-toggle" data-toggle="dropdown" href="/adm/cadastrar">Cadastrar</a>
+            <a class="navbar-brand text-dark" href="/adm/cadastrar">Cadastrar</a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSite">
+                <span class="navbar-toggler-icon"></span>
+            </button>
             <div class="collapse navbar-collapse" id="navbarSite">
-                <ul class="dropdown-menu">
+                <ul class="navbar-nav">
                     <li class="nav-item">
-                        <a class="nav-link text-dark" href="#">Informações</a>
+                        <a class="nav-link text-dark" href="/adm">Informações</a>
                     </li>
                 </ul>
                 <ul class="navbar-nav">

@@ -15,7 +15,7 @@
                 </div>   
             </div> 
             <div class="text-center"> 
-                <img  src="/arq/img/ideias.jpg" style="height: 400px;"><br>
+                <img  src="/arq/img/upload/<?php echo htmlspecialchars( $value1["desimage"], ENT_COMPAT, 'UTF-8', FALSE ); ?>" style="height: 400px;"><br>
                 <p>_</p>
             </div>
         </div>

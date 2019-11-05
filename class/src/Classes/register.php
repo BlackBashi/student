@@ -45,9 +45,15 @@ class register {
         $conexao->query("INSERT INTO tb_adm (desnome, deslogin, despassword, desemail, dessession) VALUES ('$desnome', '$deslogin', '$passwordok', '$desemail', '$dessession')");
     }
     
-    public function insertNoticias($desautor, $destitulo, $desdetails){
+    public function insertNoticias($desautor, $destitulo, $desdetails, $file){
         $conexao = new Sql;
-        $conexao->query("INSERT INTO tb_noticias (desautor, destitulo, desdetails) VALUES ('$desautor', '$destitulo', '$desdetails')");
+        if(isset($file)){
+            $extensão = strtolower(substr($file, -4)); //deixa tudo minusculo e as ultimas 4 letras.
+            $novo_nome = md5(time()) . $extensão; //nome da imagem
+            $diretorio = "/home/mauricio/students/arq/img/upload/";
+            move_uploaded_file($file, $diretorio.$novo_nome); //faz o upload
+        }
+        $conexao->query("INSERT INTO tb_noticias (desautor, destitulo, desdetails, desimage) VALUES ('$desautor', '$destitulo', '$desdetails', '$novo_nome')");
         header("Location: /adm/noticias");
         die;
     }
@@ -163,4 +169,26 @@ class register {
         return($results);
     }
 
+    public function dadosNoticia($id){
+        $sql = new Sql;
+        $results = $sql->select("SELECT * FROM tb_noticias WHERE idnoticia = :ID", array(
+            ":ID"=>$id
+        ));
+        return($results);
+    }
+
+    public function editNoticia($desautor, $destitulo, $desdetails, $id){
+        $sql = new Sql;
+        $sql->query("UPDATE tb_noticias SET desautor = :DESAUTOR, destitulo = :DESTITULO, desdetails = :DESDETAILS WHERE idnoticia = :ID", array(
+            ":DESAUTOR"=>$desautor,
+            ":DESTITULO"=>$destitulo,
+            ":DESDETAILS"=>$desdetails,
+            ":ID"=>$id
+        ));
+    }
+
+    public function deleteNoticia($id){
+        $sql = new Sql;
+        $sql->query("DELETE FROM tb_noticias WHERE idnoticia = '$id' ");
+    }
 }

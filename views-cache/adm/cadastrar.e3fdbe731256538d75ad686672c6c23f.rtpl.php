@@ -1,5 +1,5 @@
 <?php if(!class_exists('Rain\Tpl')){exit;}?><div class="container">
-<div class="p-3 mb-2 text-dark" style="background-color: #F0F0D8">
+<div class="p-3 mb-2 text-dark" style="background-color: #CCCCCC">
     <h1 class="text-center">Cadastrar</h1><br>
     <ul class="nav">
         <li class="nav-item">
