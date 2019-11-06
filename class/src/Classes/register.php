@@ -54,8 +54,6 @@ class register {
             move_uploaded_file($file, $diretorio.$novo_nome); //faz o upload
         }
         $conexao->query("INSERT INTO tb_noticias (desautor, destitulo, desdetails, desimage) VALUES ('$desautor', '$destitulo', '$desdetails', '$novo_nome')");
-        header("Location: /adm/noticias");
-        die;
     }
 
     public function valilogin($login, $senha){

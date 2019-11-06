@@ -13,6 +13,7 @@
     <script src="/arq/js/bootstrap.min.js"></script>
     <link rel="stylesheet" href="/arq/css/bootstrap.min.css">
     <link rel="stylesheet" href="/arq/css/estilos.css">
+    <script src="https://kit.fontawesome.com/891babefe4.js" crossorigin="anonymous"></script>
     <title>Teste</title>
 </head>
 <body class="backimageadm paralax" >

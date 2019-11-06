@@ -78,14 +78,26 @@ $app->get('/adm/novanoticia', function(){
 	register::verifyLoginAdm();
 	$page = new PageAdmin();
 
-	$page->setTpl("novaNoticia");
+	$error = isset($_GET['error']) && $_GET['error'] ? 1 : 0;
+	$success = isset($_GET['success']) && $_GET['success'] ? 1 : 0;
+
+	$page->setTpl("novaNoticia", [
+		"error"=>$error,
+		"success"=>$success
+	]);
 });
 
 $app->post('/adm/novanoticia', function(){
 	register::verifyLoginAdm();
 	$Register = new Register();
 	
+	if($_POST['desautor'] === "" || $_POST['destitulo'] === "" || $_POST['desdetails'] === ""){
+		header("Location: /adm/novanoticia?error=1");
+		die;
+	}
 	$Register->insertNoticias($_POST['desautor'], $_POST['destitulo'], $_POST['desdetails'], $_FILES['fileimage']['tmp_name']);
+	header("Location: /adm/novanoticia?success=1");
+	die;
 });
 
 $app->get('/adm/editarnoticia', function(){

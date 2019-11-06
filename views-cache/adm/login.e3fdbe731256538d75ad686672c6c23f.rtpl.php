@@ -16,7 +16,7 @@
     <title>Teste</title>
 </head>
 <body class="backimageloginadm img-fluid">
-        <div class="container border border-dark shadow-lg w-50 p-5 text-dark"  id="tmcont" style="height: 19,2cm; font: normal 23px Robo; background-color: #F0F0F0" >
+        <div class="container border border-dark shadow-lg w-50 p-5 text-dark"  id="tmcont" style="height: 19,2cm; font: normal 23px Robo; background-color: #CCCCCC" >
             <h1 class="text-center">Secretaria <br>Login</h1><br>
             <?php if( $error == 1 ){ ?>
 
