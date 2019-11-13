@@ -1,6 +1,7 @@
 <div class="container p-3 mb-2 text-dark" id="tmcont" style="font: normal 23px Robo; background-color: #CCCCCC" >
-    <h1 class="text-center">Cadastrar professor</h1> <br>
-    <form role="form" method="POST" action="/adm/cadastrar/professor">
+    <h1 class="text-center">Editar professor</h1> <br>
+    {loop="$professor"}
+    <form role="form" method="POST" action="/adm/editarprofessor?id={$value.idprof}">
         <div class="form-group">
             {if="$error == 1"}
             <div class="alert alert-danger" role="alert">
@@ -11,17 +12,18 @@
             {if="$success == 1"}
             <div class="alert alert-success" role="alert">
                 <i class="fas fa-clipboard-check"></i>
-                Registrado com sucesso!
+                Editado com sucesso!
             </div>
             {/if}
             <label form="desnome">Nome:</label>
-            <input class="form-control" type="text" name="desnome"  placeholder="Digite o nome do professor"><br>
+            <input class="form-control" type="text" name="desnome"  value="{$value.desnome}"><br>
             <label form="deslogin">CPF:</label>
-            <input class="form-control" type="text"  name="descpf" placeholder="Digite o CPF do professor"><br>
+            <input class="form-control" type="text"  name="descpf" value="{$value.descpf}"><br>
             <label form="deslogin">Código de login:</label>
-            <input class="form-control" type="text"  name="descodigo" placeholder="Digite o Código de login"><br>
+            <input class="form-control" type="text"  name="descodigo" value="{$value.descodigo}"><br>
             <input class="btn btn-success" type="submit" value="cadastrar"><br>
             <div class="text-center"><img src="/arq/img/PTK-icon.png" alt="Imagem responsiva" class="img-rounded"></div><br>
+            {/loop}
         </div>
     </form>
 </div>

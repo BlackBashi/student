@@ -2,6 +2,18 @@
     <h1 class="text-center">Cadastrar</h1> <br>
     <form role="form" method="POST" action="/register">
         <div class="form-group">
+            {if="$error == 1"}
+            <div class="alert alert-danger" role="alert">
+                <i class="fas fa-times-circle"></i>
+                Preencha todos os campos!
+            </div>
+            {/if}
+            {if="$success == 1"}
+            <div class="alert alert-success" role="alert">
+                <i class="fas fa-clipboard-check"></i>
+                Registrado com sucesso!
+            </div>
+            {/if}
             <label form="desnome">Nome:</label>
             <input class="form-control" type="text" name="desnome"  placeholder="Digite seu nome"><br>
             <label form="deslogin">Login:</label>
@@ -10,6 +22,7 @@
             <input class="form-control" type="text"  name="desaddress" placeholder="Digite o seu e-mail"><br>
             <label form="despassword">Senha:</label>
             <input class="form-control" type="password" name="despassword" placeholder="Digite a sua senha"><br>
+            <input class="btn btn-warning" type="file"  name="fileimage"><br> 
             <label form="desturma">Turma:</label><br>
             <select name="desturma"> 
                 <option value=""></option> 

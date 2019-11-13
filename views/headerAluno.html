@@ -4,47 +4,49 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    
 
  
      <!-- Bootstrap CSS -->
     <script src="/arq/js/jquery.min.js"></script>
     <script src="/arq/js/popper.min.js"></script>
     <script src="/arq/js/bootstrap.min.js"></script>
-    <link rel="stylesheet" href="/arq/css/bootstrap.min.css">
-    <link rel="stylesheet" href="/arq/css/estilos.css">
     <script src="/arq/js/fontawesome.js"></script>
     <script src="/arq/js/rellax.js"></script>
+    <link rel="shortcut icon" type="image/x-icon" href="/arq/img/icone-livro.ico">
     <script>
       var rellax = new Rellax('.rellax');
     </script>
-    <title>Student - Adm</title>
+    <link rel="stylesheet" href="/arq/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/arq/css/estilos.css">
+    <title>Student</title>
 </head>
-<body class="backimageadm paralax" >
-    <nav class="navbar navbar-expand-lg p-3 mb-2 text-dark" style="font: normal 23px Robo; background-color: #CCCCCC" >
-       <a href="/"><img src="/arq/img/logo.png" alt="Imagem responsiva"></a>
+<body class="backimageregister paralax" >
+    <nav class="navbar navbar-expand-lg p-3 mb-2 bg-light text-dark" style="font: normal 23px Robo" >
+       <a href="/"><img src="/arq/img/logo.png"alt="Imagem responsiva" href="/"></a>
         <div class="container">
-            <a class="navbar-brand text-dark" href="/adm/cadastrar"> <i class="fas fa-users"></i> Cadastrar</a>
+            <a class="navbar-brand text-dark" href="/"><i class="fas fa-home"></i> Inicio</a>
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSite">
                 <span class="navbar-toggler-icon"></span>
             </button>
             <div class="collapse navbar-collapse" id="navbarSite">
+                
                 <ul class="navbar-nav">
                     <li class="nav-item">
-                        <a class="nav-link text-dark" href="/adm"><i class="fas fa-info"></i> Informações</a>
+                        <a class="nav-link text-dark" href="#"> <img src="/arq/img/upload/perfil/{$photo}" alt="perfil" style="height: 1cm;" class="rounded-circle border border-dark"> {$aluno}</a>
                     </li>
                 </ul>
                 <ul class="navbar-nav">
                     <li class="nav-item">
-                        <a class="nav-link text-dark" href="/adm/noticias"><i class="far fa-newspaper"></i> Noticias</a>
+                        <a class="nav-link text-dark" href="#"> <i class="fas fa-file-alt"></i> Boletim</a>
                     </li>
                 </ul>
                 <ul class="navbar-nav">
                     <li class="nav-item">
-                        <a class="nav-link text-dark" href="/adm/logout"><i class="fas fa-sign-out-alt"></i> Sair</a>
+                        <a class="nav-link text-dark" href="#"> <i class="fas fa-cog"></i> Configurações</a>
                     </li>
                 </ul>
             </div>
         </div> 
+       
+        <a class="text-dark text-right" href="/logout"> <i class="fas fa-sign-out-alt"></i> Sair</a>
     </nav>
-    

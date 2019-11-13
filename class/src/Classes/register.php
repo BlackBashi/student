@@ -3,6 +3,7 @@
 namespace Students\Classes;
 use Students\Classes\Sql;
 
+
 if (session_id() == '' || !isset($_SESSION)) {
     // session isn't started
     session_start();
@@ -17,26 +18,26 @@ class register {
        }
    }
 
-    public function insert($desnome, $deslogin, $desaddress, $despassword, $desturma){
+    public function insert($desnome, $deslogin, $desaddress, $despassword, $desturma, $file = ""){
         $conexao = new Sql;
+        if(isset($file)){
+            $extensão = strtolower(substr($file, -4)); //deixa tudo minusculo e as ultimas 4 letras.
+            $novo_nome = md5(time()) . $extensão; //nome da imagem
+            $diretorio = "/home/mauricio/www/student/arq/img/upload/perfil/";
+            move_uploaded_file($file, $diretorio.$novo_nome); //faz o upload
+        }
         $passwordok = password_hash($despassword, PASSWORD_BCRYPT);
-        $conexao->query("INSERT INTO tb_logins (desnome, deslogin, desaddress, despassword, desturma) VALUES ('$desnome', '$deslogin', '$desaddress', '$passwordok', '$desturma')");
-        header("Location: /login");
-        exit;
+        $conexao->query("INSERT INTO tb_logins (desnome, deslogin, desaddress, despassword, desturma, desimage) VALUES ('$desnome', '$deslogin', '$desaddress', '$passwordok', '$desturma', '$novo_nome')");
     }
 
     public function insertStudents($desnome, $descpf, $desturma){
         $conexao = new Sql;
         $conexao->query("INSERT INTO tb_students (desnome, descpf, desturma) VALUES ('$desnome', '$descpf', '$desturma')");
-        header("Location: /adm/cadastrar/alunos");
-        die;
     }
 
     public function insertProfessor($desnome, $descpf, $descodigo){
         $conexao = new Sql;
         $conexao->query("INSERT INTO tb_professores (desnome, descpf, descodigo) VALUES ('$desnome', '$descpf', '$descodigo')");
-        header("Location: /adm/cadastrar/professor");
-        die;
     }
 
     public function insertAdm($desnome, $deslogin, $despassword, $desemail, $dessession){
@@ -50,7 +51,7 @@ class register {
         if(isset($file)){
             $extensão = strtolower(substr($file, -4)); //deixa tudo minusculo e as ultimas 4 letras.
             $novo_nome = md5(time()) . $extensão; //nome da imagem
-            $diretorio = "/home/mauricio/students/arq/img/upload/";
+            $diretorio = "/home/mauricio/www/student/arq/img/upload/";
             move_uploaded_file($file, $diretorio.$novo_nome); //faz o upload
         }
         $conexao->query("INSERT INTO tb_noticias (desautor, destitulo, desdetails, desimage) VALUES ('$desautor', '$destitulo', '$desdetails', '$novo_nome')");
@@ -110,17 +111,42 @@ class register {
             return false;
         }
     }
+
+    public function valiLoginProf($login, $senha){
+        $sql = new Sql;
+       
+        $results = $sql->select("SELECT * FROM tb_professores  id WHERE descpf = :LOGIN", array(
+            ":LOGIN"=>$login
+        ));
+       
+        if (count($results)) {
+            $password = $results[0]["descodigo"];
+            
+            if($senha !== $password){
+                return false;
+                header("Location: /professor?error=1");
+                die;
+            }else{
+               $_SESSION['userProf'] = $results[0];
+               header("Location: /");
+               return 1;
+            }
+
+        } else {
+            return false;
+        }
+    }
    
-    public static function verifyLogin(){
-        if(!isset($_SESSION['user'])){
+    /*public static function verifyLogin(){
+        if(!isset($_SESSION['user']) || !isset($_SESSION['userProf']) ){
             header("Location: /");
             die;
         }
-    }
+    }*/
 
     public static function issetLogin(){
-        if(isset($_SESSION['user'])){
-            header("Location: /home");
+        if(isset($_SESSION['user']) || isset($_SESSION['userProf'])){
+            header("Location: /");
             die;
         }
     }
@@ -136,6 +162,25 @@ class register {
             die;
         }
         
+    }
+
+    public function verifyHeader(){
+        $result = array(
+            'user'=> false,
+            'aluno'=> false,
+            'professor'=> false
+        );
+        if(!isset($_SESSION["user"]) && !isset($_SESSION["userProf"])){
+            $result['user'] = true;
+        }
+        if(isset($_SESSION["user"])){
+            $result['aluno'] = true;
+        }
+        if(isset($_SESSION["userProf"])){
+            $result['professor'] = true;
+        }
+
+        return $result;
     }
 
     public static function issetLoginAdm(){
@@ -175,6 +220,22 @@ class register {
         return($results);
     }
 
+    public function dadosAluno($id){
+        $sql = new Sql;
+        $results = $sql->select("SELECT * FROM tb_students WHERE idstudent = :ID", array(
+            ":ID"=>$id
+        ));
+        return($results);
+    }
+
+    public function dadosProfessor($id){
+        $sql = new Sql;
+        $results = $sql->select("SELECT * FROM tb_professores WHERE idprof = :ID", array(
+            ":ID"=>$id
+        ));
+        return($results);
+    }
+
     public function editNoticia($desautor, $destitulo, $desdetails, $id){
         $sql = new Sql;
         $sql->query("UPDATE tb_noticias SET desautor = :DESAUTOR, destitulo = :DESTITULO, desdetails = :DESDETAILS WHERE idnoticia = :ID", array(
@@ -185,8 +246,38 @@ class register {
         ));
     }
 
+    public function editAluno($desnome, $descpf, $desturma, $id){
+        $sql = new Sql;
+        $sql->query("UPDATE tb_students SET desnome = :DESNOME, descpf = :DESCPF, desturma = :DESTURMA WHERE idstudent = :ID", array(
+            ":DESNOME"=>$desnome,
+            ":DESCPF"=>$descpf,
+            ":DESTURMA"=>$desturma,
+            ":ID"=>$id
+        ));
+    }
+
+    public function editProfessor($desnome, $descpf, $descodigo, $id){
+        $sql = new Sql;
+        $sql->query("UPDATE tb_professores SET desnome = :DESNOME, descpf = :DESCPF, descodigo = :DESCODIGO WHERE idprof = :ID", array(
+            ":DESNOME"=>$desnome,
+            ":DESCPF"=>$descpf,
+            ":DESCODIGO"=>$descodigo,
+            ":ID"=>$id
+        ));
+    }
+
     public function deleteNoticia($id){
         $sql = new Sql;
         $sql->query("DELETE FROM tb_noticias WHERE idnoticia = '$id' ");
     }
+    public function deleteAluno($id){
+        $sql = new Sql;
+        $sql->query("DELETE FROM tb_students WHERE idstudent = '$id' ");
+    }
+
+    public function deleteProfessor($id){
+        $sql = new Sql;
+        $sql->query("DELETE FROM tb_professores WHERE idprof = '$id' ");
+    }
+
 }

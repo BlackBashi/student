@@ -1,6 +1,7 @@
 <div class="container p-3 mb-2 text-dark" id="tmcont" style="font: normal 23px Robo; background-color: #CCCCCC" >
-    <h1 class="text-center">Cadastrar Alunos</h1> <br>
-    <form role="form" method="POST" action="/adm/cadastrar/alunos">
+    <h1 class="text-center">Editar Aluno</h1> <br>
+    {loop="$aluno"}
+    <form role="form" method="POST" action="/adm/editaraluno?id={$value.idstudent}">
         <div class="form-group">
             {if="$error == 1"}
             <div class="alert alert-danger" role="alert">
@@ -11,16 +12,17 @@
             {if="$success == 1"}
             <div class="alert alert-success" role="alert">
                 <i class="fas fa-clipboard-check"></i>
-                Registrado com sucesso!
+                Alterado com sucesso!
             </div>
             {/if}
+            
             <label form="desnome">Nome:</label>
-            <input class="form-control" type="text" name="desnome"  placeholder="Digite o nome do aluno"><br>
+            <input class="form-control" type="text" name="desnome"  placeholder="Digite o nome do aluno" value="{$value.desnome}"><br>
             <label form="deslogin">CPF:</label>
-            <input class="form-control" type="text"  name="descpf" placeholder="Digite o CPF do aluno"><br>
+            <input class="form-control" type="text"  name="descpf" placeholder="Digite o CPF do aluno" value="{$value.descpf}"><br>
             <label form="desturma">Turma:</label><br>
             <select name="desturma"> 
-                <option value=""></option> 
+                <option value="{$value.desturma}"> {$value.desturma}</option> 
                 <option value="1am">1º AM</option>
                 <option value="1bm">1º BM</option>
                 <option value="1cm">1º CM</option>
@@ -85,7 +87,8 @@
                 <option value="fN">3º FN</option>
                 <option value="gN">3º GN</option>
             </select><br>
-            <input class="btn btn-success" type="submit" value="cadastrar"><br>
+            {/loop}
+            <input class="btn btn-success" type="submit" value="Concluir"><br>
             <div class="text-center"><img src="/arq/img/PTK-icon.png" alt="Imagem responsiva" class="img-rounded"></div><br>
         </div>
     </form>

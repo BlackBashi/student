@@ -17,6 +17,10 @@
                 <td>{$value.desnome}</td>
                 <td>{$value.descpf}</td>
                 <td>{$value.desturma}</td>
+                <td style="width: 4cm;">
+                    <a class="btn btn-info" href="/adm/editaraluno?id={$value.idstudent}" role="button"><i class="fas fa-pencil-alt"></i> Editar</a>
+                    <a class="btn btn-danger" href="/adm/deletaraluno?id={$value.idstudent}" role="button"><i class="far fa-trash-alt"></i> Deletar</a>
+                </td> 
             </tr> 
             {/loop}
         </tbody>

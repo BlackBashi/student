@@ -17,7 +17,12 @@
                 <td>{$value.desnome}</td>
                 <td>{$value.descpf}</td>
                 <td>{$value.descodigo}</td>
+                <td style="width: 4cm;">
+                    <a class="btn btn-info" href="/adm/editarprofessor?id={$value.idprof}" role="button"><i class="fas fa-pencil-alt"></i> Editar</a>
+                    <a class="btn btn-danger" href="/adm/deletarprofessor?id={$value.idprof}" role="button"><i class="far fa-trash-alt"></i> Deletar</a>
+                </td> 
             </tr> 
+           
             {/loop}
         </tbody>
       </table>     
