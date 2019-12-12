@@ -18,16 +18,25 @@ class register {
        }
    }
 
-    public function insert($desnome, $deslogin, $desaddress, $despassword, $desturma, $file = ""){
+    public function insert($desnome, $deslogin, $desaddress, $despassword, $desturma, $file = "", $descpf, $desnumber = ""){
         $conexao = new Sql;
-        if(isset($file)){
-            $extensão = strtolower(substr($file, -4)); //deixa tudo minusculo e as ultimas 4 letras.
-            $novo_nome = md5(time()) . $extensão; //nome da imagem
-            $diretorio = "/home/mauricio/www/student/arq/img/upload/perfil/";
-            move_uploaded_file($file, $diretorio.$novo_nome); //faz o upload
+        $results = $conexao->select("SELECT * FROM tb_students  idstudent WHERE descpf = :CPF", array(
+            ":CPF"=>$descpf
+        ));
+        if(count($results)){
+            if(isset($file)){
+                $extensão = strtolower(substr($file, -4)); //deixa tudo minusculo e as ultimas 4 letras.
+                $novo_nome = md5(time()) . $extensão; //nome da imagem
+                $diretorio = "/home/mauricio/www/student/arq/img/upload/perfil/";
+                move_uploaded_file($file, $diretorio.$novo_nome); //faz o upload
+            }
+            $passwordok = password_hash($despassword, PASSWORD_BCRYPT);
+            $conexao->query("INSERT INTO tb_logins (desnome, deslogin, desaddress, despassword, desturma, desimage, descpf, desnumber) VALUES ('$desnome', '$deslogin', '$desaddress', '$passwordok', '$desturma', '$novo_nome', '$descpf', '$desnumber')");
+            return true;
+        }else{
+            return false;
         }
-        $passwordok = password_hash($despassword, PASSWORD_BCRYPT);
-        $conexao->query("INSERT INTO tb_logins (desnome, deslogin, desaddress, despassword, desturma, desimage) VALUES ('$desnome', '$deslogin', '$desaddress', '$passwordok', '$desturma', '$novo_nome')");
+        
     }
 
     public function insertStudents($desnome, $descpf, $desturma){
@@ -120,16 +129,19 @@ class register {
         ));
        
         if (count($results)) {
-            $password = $results[0]["descodigo"];
+            $codigo = $results[0]["descodigo"];
+            $password = $results[0]["despassword"];
+
+            $ok = password_verify($senha, $password);
             
-            if($senha !== $password){
+            if($senha == $codigo || $ok == true){
+                $_SESSION['userProf'] = $results[0];
+                header("Location: /");
+                return 1;
+            }else{
                 return false;
                 header("Location: /professor?error=1");
                 die;
-            }else{
-               $_SESSION['userProf'] = $results[0];
-               header("Location: /");
-               return 1;
             }
 
         } else {
@@ -147,6 +159,13 @@ class register {
     public static function issetLogin(){
         if(isset($_SESSION['user']) || isset($_SESSION['userProf'])){
             header("Location: /");
+            die;
+        }
+    }
+
+    public static function NOTissetLogin(){
+        if(!isset($_SESSION['user']) && !isset($_SESSION['userProf'])){
+            header("Location: /login");
             die;
         }
     }
@@ -196,19 +215,19 @@ class register {
 
     public function listAllStudents(){
         $sql = new Sql;
-        $results = $sql->select("SELECT * FROM tb_students");
+        $results = $sql->select("SELECT * FROM tb_students ORDER BY desnome");
         return($results);
     }
 
     public function listAllProfessores(){
         $sql = new Sql;
-        $results = $sql->select("SELECT * FROM tb_professores");
+        $results = $sql->select("SELECT * FROM tb_professores ORDER BY desnome");
         return($results);
     }
 
     public function listNoticias(){
         $sql = new Sql;
-        $results = $sql->select("SELECT * FROM tb_noticias");
+        $results = $sql->select("SELECT * FROM tb_noticias ORDER BY idnoticia DESC");
         return($results);
     }
 
@@ -223,6 +242,14 @@ class register {
     public function dadosAluno($id){
         $sql = new Sql;
         $results = $sql->select("SELECT * FROM tb_students WHERE idstudent = :ID", array(
+            ":ID"=>$id
+        ));
+        return($results);
+    }
+
+    public function dadosLogin($id){
+        $sql = new Sql;
+        $results = $sql->select("SELECT * FROM tb_logins WHERE idlogin = :ID", array(
             ":ID"=>$id
         ));
         return($results);
@@ -245,6 +272,111 @@ class register {
             ":ID"=>$id
         ));
     }
+
+    public function editLoginA($desnome, $desemail, $desnumber, $file, $id){
+        $sql = new Sql;
+        $começo = substr($file, 0, 4);
+        if($começo == "/tmp"){
+            $extensão = strtolower(substr($file, -4)); //deixa tudo minusculo e as ultimas 4 letras.
+            $novo_nome = md5(time()) . $extensão; //nome da imagem
+            $diretorio = "/home/mauricio/www/student/arq/img/upload/perfil/";
+            move_uploaded_file($file, $diretorio.$novo_nome); //faz o upload
+            $sql->query("UPDATE tb_logins SET desnome = :DESNOME, desaddress = :DESADDRESS, desimage = :DESIMAGE, desnumber = :DESNUMBER WHERE idlogin = :ID", array(
+                ":DESNOME"=>$desnome,
+                ":DESADDRESS"=>$desemail,
+                ":DESNUMBER"=>$desnumber,
+                ":DESIMAGE"=>$novo_nome,
+                ":ID"=>$id
+            ));
+            header("Location: /infoaluno?success=1");
+            
+	        die;
+        }else{
+            $sql->query("UPDATE tb_logins SET desnome = :DESNOME, desaddress = :DESADDRESS, desnumber = :DESNUMBER WHERE idlogin = :ID", array(
+                ":DESNOME"=>$desnome,
+                ":DESADDRESS"=>$desemail,
+                ":DESNUMBER"=>$desnumber,
+                ":ID"=>$id
+            ));
+            header("Location: /infoaluno?success=1");
+	        die;
+        }
+    }
+
+    public function editLoginP($desnome, $desemail, $desnumber, $file, $id){
+        $sql = new Sql;
+        $começo = substr($file, 0, 4);
+        if($começo == "/tmp"){
+            $extensão = strtolower(substr($file, -4)); //deixa tudo minusculo e as ultimas 4 letras.
+            $novo_nome = md5(time()) . $extensão; //nome da imagem
+            $diretorio = "/home/mauricio/www/student/arq/img/upload/perfil/";
+            move_uploaded_file($file, $diretorio.$novo_nome); //faz o upload
+            $sql->query("UPDATE tb_professores SET desnome = :DESNOME, desaddress = :DESADDRESS, desimage = :DESIMAGE, desnumero = :DESNUMBER WHERE idprof = :ID", array(
+                ":DESNOME"=>$desnome,
+                ":DESADDRESS"=>$desemail,
+                ":DESNUMBER"=>$desnumber,
+                ":DESIMAGE"=>$novo_nome,
+                ":ID"=>$id
+            ));
+            header("Location: /infoprofessor?success=1");
+            
+	        die;
+        }else{
+            $sql->query("UPDATE tb_professores SET desnome = :DESNOME, desaddress = :DESADDRESS, desnumero = :DESNUMBER WHERE idprof = :ID", array(
+                ":DESNOME"=>$desnome,
+                ":DESADDRESS"=>$desemail,
+                ":DESNUMBER"=>$desnumber,
+                ":ID"=>$id
+            ));
+            header("Location: /infoprofessor?success=1");
+	        die;
+        }
+    }
+
+    public function editPasswordA($antiga, $nova, $login){
+         $sql = new Sql;
+       
+        $results = $sql->select("SELECT * FROM tb_logins  id WHERE idlogin = :LOGIN", array(
+            ":LOGIN"=>$login
+        ));
+        $password = $results[0]["despassword"];
+        if(password_verify($antiga, $password)){
+            $passwordok = password_hash($nova, PASSWORD_BCRYPT);
+            $sql->query("UPDATE tb_logins SET despassword = :DESPASSWORD WHERE idlogin = :ID", array(
+                ":DESPASSWORD"=>$passwordok,
+                ":ID"=>$login
+            ));
+            header("Location: /infoaluno?success=1");
+            die;
+        }else{
+            header("Location: /infoaluno?errorsenha=1");
+            die;
+        }
+
+    }
+
+    public function editPasswordP($antiga, $nova, $login){
+        $sql = new Sql;
+      
+       $results = $sql->select("SELECT * FROM tb_professores id WHERE idprof = :LOGIN", array(
+           ":LOGIN"=>$login
+       ));
+       $codigo = $results[0]["descodigo"];
+       $password = $results[0]["despassword"];
+       if($antiga == $codigo || password_verify($antiga, $password)){
+           $passwordok = password_hash($nova, PASSWORD_BCRYPT);
+           $sql->query("UPDATE tb_professores SET despassword = :DESPASSWORD WHERE idprof = :ID", array(
+               ":DESPASSWORD"=>$passwordok,
+               ":ID"=>$login
+           ));
+           header("Location: /infoprofessor?success=1");
+           die;
+       }else{
+           header("Location: /infoprofessor?errorsenha=1");
+           die;
+       }
+
+   }
 
     public function editAluno($desnome, $descpf, $desturma, $id){
         $sql = new Sql;

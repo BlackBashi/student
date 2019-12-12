@@ -1,0 +1,55 @@
+<div class="container"  style="height: 20
+cm; width: 20cm;">
+    <div class="align-middle p-3 mb-2 bg-light text-dark text-center">
+        <form role="form" method="POST" action="/infoprofessor" enctype="multipart/form-data">
+            {if="$success == 1"}
+            <div class="alert alert-success" role="alert">
+                <i class="fas fa-clipboard-check"></i>
+                Alterado com sucesso!
+            </div>
+            {/if}
+            {if="$error == 1"}
+            <div class="alert alert-danger" role="alert">
+                <i class="fas fa-times-circle"></i>
+                Preencha todos os campos!
+            </div>
+            {/if}
+            {loop="$professor"}
+            <label class="text-center" style="font: normal 40px BigNoodleTitling;"> Alterar informações:</label>
+            <br><label class="text-center">Foto</label><br>
+            <img src="/arq/img/upload/perfil/{$photo}" alt="perfil" style="height: 5cm;" class="rounded-circle border border-dark"><br>
+            <br><div class="custom-file">
+                <input type="file" class="custom-file-input" name="fileimage">
+                <label class="custom-file-label" for="customFile">Escolha uma foto</label>
+            </div><br>
+            <br><label class="text-center">Nome</label>
+            <input type="text" class="form-control text-center" autocomplete="off" name="desnome" value="{$value.desnome}"><br>
+            <label class="text-center">Email</label><br>
+            <input type="text" class="form-control text-center" autocomplete="off" name="desaddress" value="{$value.desaddress}"><br>
+            <label class="text-center">Numero do celular</label><br>
+            <input type="text" class="form-control text-center" autocomplete="off" name="desnumber" value="{$value.desnumero}"><br>
+            {/loop}
+            <button class="btn btn-primary" style="font: normal 20px BigNoodleTitling;" type="submit">alterar</button><br>
+        </form>
+    </div>
+</div>
+<div class="container"  style="height: 10cm; width: 20cm;">
+    <div class="align-middle p-3 mb-2 bg-light text-dark text-center">
+        <form role="form" method="POST" action="/infoprofessor">
+            {if="$errorsenha == 1"}
+            <div class="alert alert-danger" role="alert">
+                <i class="fas fa-times-circle"></i>
+                Senha Incorreta!
+            </div>
+            {/if}
+            <label class="text-center" style="font: normal 40px BigNoodleTitling;">Alterar a senha: </label><br>
+            <label class="text-center">Senha antiga</label><br>
+            <input type="password" class="form-control text-center" autocomplete="off" name="antiga" value=""><br>
+            <label class="text-center">Senha nova</label><br>
+            <input type="password" class="form-control text-center" autocomplete="off" name="nova" value=""><br>
+            <button class="btn btn-primary" style="font: normal 20px BigNoodleTitling;" type="submit">alterar</button><br>
+        </form>
+    </div>
+</div>
+
+           

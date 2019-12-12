@@ -5,6 +5,7 @@ use Students\Classes\Page;
 use Students\Classes\DB\Sql;
 use Students\Classes\alunos;
 use Students\Classes\register;
+use Students\Classes\Boletim;
 use Students\Classes\PageAdmin;
 
 session_start();
@@ -67,5 +68,63 @@ $app->post('/adm/cadastrar/adm', function(){
 	$register = new register;
 	$register->insertAdm($_POST["desnome"], $_POST["deslogin"], $_POST["despassword"], $_POST["desemail"], $session);
 	header("Location: /adm");
+	die;
+});
+
+$app->get('/adm/turmas', function(){
+	register::verifyLoginAdm();
+	$page = new PageAdmin();
+	$register = new register;
+	$boletim = new Boletim;
+
+	$turmas = $boletim->turmas();
+	$page->setTpl("turmas", [
+		"turmas"=>$turmas,
+	]);
+});
+
+$app->get('/adm/editarTurma', function(){
+	register::verifyLoginAdm();
+	$page = new PageAdmin();
+	$register = new register;
+	$boletim = new Boletim;
+
+	$professoresadd = $boletim->turmaProfessores($_GET['id']);
+	$professores = $register->listAllProfessores();
+	$dados = $boletim->getTurma($_GET['id']);
+	
+	$materias = $boletim->turmaMaterias($_GET['id']);
+	$page->setTpl("editarTurma", [
+		"nome"=>$dados[0]["descricao"],
+		"dados"=>$dados,
+		"professores"=>$professores,
+		"materias"=>$materias,
+		"professoresadd"=>$professoresadd,
+		"idturma"=>$_GET["id"]
+	]);
+});
+
+$app->post('/adm/editarTurma', function(){
+	$boletim = new Boletim; 
+	$boletim->editTurma($_POST["descricao"], $_POST["turno"], intval($_POST["anoletivo"]), $_POST["idturma"]);
+	header("Location: /adm/editarTurma?id=" . $_POST["idturma"]);
+	die;
+});
+
+$app->post("/adm/addprof", function(){
+	$boletim = new Boletim;
+
+	$materia = $_POST["materia"];
+	$boletim->addProfessor($_GET["idturma"], $materia, $_GET["id"]);
+	header("Location: /adm/editarTurma?id=" . $_GET["idturma"]);
+	die;
+});
+
+$app->get("/adm/removerprof", function(){
+	$boletim = new Boletim;
+
+	$materia = "2";
+	$boletim->removeProfessor($_GET["id"]);
+	header("Location: /adm/editarTurma?id=" . $_GET["idturma"]);
 	die;
 });

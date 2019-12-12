@@ -1,0 +1,75 @@
+<div class="container">
+<div class="p-3 mb-2 text-dark" style="background-color: rgb(255, 255, 255)">
+    <h1 class="text-center">Lista de alunos:</h1><br>
+    <div class="btn-group">
+        <div class="dropdown">
+            <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                Turno
+            </button> 
+            <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+            {loop="$turmas"}
+                <a class="dropdown-item" href="#">{$value.turno}</a>
+            {/loop}
+            </div>
+        </div>
+    </div>
+    <div class="btn-group">
+        <div class="dropdown">
+            <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                Turmas
+            </button> 
+            <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+            {loop="$turmas"}
+            <a class="dropdown-item" href="#">{$value.descricao}</a>
+            {/loop}
+            </div>
+        </div>
+    </div><br>
+    <p>
+        <div class="btn-group">
+            <div class="dropdown">
+                <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    Bimestre
+                </button> 
+                <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                    {loop="$bimestre"}
+                    <a class="dropdown-item" href="#">{$value.bimestre}</a>
+                    {/loop}
+                </div>
+            </div>
+        </div>
+        <div class="btn-group">
+            <div class="dropdown">
+                <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    Matéria
+                </button> 
+                <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                <a class="dropdown-item" href="#">{.$value.descricao}</a>
+                </div>
+            </div>
+        </div>
+    </p>
+    <p>
+        <table class="table table-bordered table-dark">
+            <thead>
+                <tr>
+                    <th scope="col">Nome</th>
+                    <th scope="col">T</th>
+                    <th scope="col">C</th>
+                    <th scope="col">P</th>
+                    <th scope="col">M</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>{.$value.desnome}</td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                </tr>
+            </tbody>
+        </table>
+    </p>     
+    </div>
+</div>

@@ -5,6 +5,7 @@ use Students\Classes\Page;
 use Students\Classes\DB\Sql;
 use Students\Classes\alunos;
 use Students\Classes\register;
+use Students\Classes\Boletim;
 use Students\Classes\PageAdmin;
 
 
@@ -24,12 +25,16 @@ $app->get('/adm/professores', function(){
 $app->get('/adm/cadastrar/professor', function(){
 	register::verifyLoginAdm();
 	$page = new PageAdmin();
+	$Boletim = new Boletim;
 
+	$materias = $Boletim->materias();
+	$materias = $Boletim->materias();
 	$error = isset($_GET["error"]) && $_GET["error"] ? 1 : 0;
 	$success = isset($_GET["success"]) && $_GET["success"] ? 1 : 0;
 	$page->setTpl("registerProfessores", [
 		"error"=>$error,
-		"success"=>$success
+		"success"=>$success,
+		"materias"=>$materias
 	]);
 });
 
@@ -82,3 +87,25 @@ $app->get('/adm/deletarprofessor', function(){
 	header("Location: /adm/professores");
 	die;
 });
+
+$app->get('/adm/addturma', function(){
+	$register = new register();
+	$page = new PageAdmin();
+	$Boletim = new Boletim();
+
+	$results = $Boletim->materias();
+	$error = isset($_GET['error']) ? 1 : 0;
+	$success = isset($_GET['success']) ? 1 : 0;
+	$page->setTpl("registerTurmas", [
+		"materias"=>$results,
+		"error"=>$error,
+		"success"=>$success
+	]);
+});
+
+$app->post('/adm/addturma', function(){
+	$Boletim = new Boletim;
+
+	$Boletim->insertTurmas($_POST["descricao"], $_POST["turno"], $_POST["materias"]);
+});
+

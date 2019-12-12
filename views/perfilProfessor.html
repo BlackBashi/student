@@ -1,0 +1,15 @@
+<div class="container p-3 mb-2 bg-light text-dark">
+    <div class="row">
+        <div class="col-sm-8">
+            {loop="$professor"}
+            <p><img src="/arq/img/upload/perfil/{$photo}" alt="perfil" style="height: 5cm;" class="rounded-circle border border-dark"></p>
+            <p> <h2 style="font: normal 60px BigNoodleTitling;">Prof: {$value.desnome}</h2></p>
+            <p><h4>CPF: {$value.descpf}</h4></p>
+            <p><h4>Matéria: {$value.desmateria}</h4></p>
+            <p><h4>Email: {$value.desaddress}</h4></p>
+            <p><h4>Número de telefone: {$value.desnumero}</h4></p>
+            <p><h4>Turmas: {$value.desturmas}</h4></p>
+            {/loop}
+        </div>             
+    </div>
+</div>

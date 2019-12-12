@@ -16,6 +16,7 @@ require_once("function.php");
 require_once("admNoticias.php");
 require_once("admAlunos.php");
 require_once("admProfessor.php");
+require_once("siteProfessor.php");
 
 $app->run();
 

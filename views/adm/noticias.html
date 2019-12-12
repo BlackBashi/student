@@ -1,22 +1,22 @@
 <div class="container p-3 mb-2 text-dark" style="background-color: #CCCCCC">
     <a class="btn btn-warning btn-lg btn-block" href="/adm/novanoticia" role="button"><i class="fas fa-plus"></i> Nova Notícia</a><br>
-    <h2 class="text-center">Gerenciar Notícias</h2>
+    <h2 class="text-center" style="font: normal 60px BigNoodleTitling;">Gerenciar Notícias</h2>
     <table class="table table-dark">
         <thead>
             <tr>
                 <th scope="col">#</th>
-                <th scope="col"><i class="far fa-user"></i> Autor</th>
+                <th scope="col" class="text-center" ><i class="far fa-user"></i> Autor</th>
                 <th scope="col" class="text-center">Título</th>
-                <th scope="col"><i class="far fa-calendar-alt"></i> Data de publicação</th>
+                <th scope="col" class="text-center"><i class="far fa-calendar-alt"></i> Data de publicação</th>
             </tr>
         </thead>
         <tbody>
             {loop="$noticias"}
             <tr>
                 <th scope="row">{$value.idnoticia}</th>
-                <td>{$value.desautor}</td>
-                <td style="">{$value.destitulo}</td>
-                <td>{$value.dtregister}</td>
+                <td class="col-2 text-truncate text-center">{$value.desautor}</td>
+                <td class="d-inline-block text-truncate" style="max-width: 14cm;">{$value.destitulo}</td>
+                <td class="col-2 text-truncate text-center">{$value.dtregister}</td>
                 <td style="width: 4cm;">
                     <a class="btn btn-info" href="/adm/editarnoticia?id={$value.idnoticia}" role="button"><i class="fas fa-pencil-alt"></i> Editar</a>
                     <a class="btn btn-danger" href="/adm/deletarnoticia?id={$value.idnoticia}" role="button"><i class="far fa-trash-alt"></i> Deletar</a>

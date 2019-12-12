@@ -27,7 +27,7 @@ class Page {
         Tpl::configure($config);
         $this->tpl = new Tpl;
         $this->setData($this->options["data"]);
-        //nome
+        //pega só o 1º nome
         if(isset($_SESSION["user"]["desnome"])){
             $desnomea = $_SESSION["user"]["desnome"];
             $results = explode(" ", $desnomea);
@@ -40,13 +40,17 @@ class Page {
         if(isset($_SESSION["user"]["desimage"])){
             $photoa = $_SESSION["user"]["desimage"];
         }
+        if(isset($_SESSION["userProf"]["desimage"])){
+            $photop = $_SESSION["userProf"]["desimage"];
+        }
         if ($this->options["header"] === true) $this->setTpl("header");
         if ($this->options["headerAluno"] === true) $this->setTpl("headerAluno", [
             "aluno"=>$results[0],
             "photo"=>$photoa
         ]);
         if ($this->options["headerProf"] === true) $this->setTpl("headerProf", [
-            "professor"=>$professor[0]
+            "professor"=>$professor[0],
+            "photo"=>$photop
         ]);
     }
 
