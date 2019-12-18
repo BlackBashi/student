@@ -4,7 +4,6 @@
     <table class="table table-bordered table-dark">
         <thead>
             <tr>
-                <th scope="col">#</th>
                 <th scope="col">Nome</th>
                 <th scope="col">CPF</th>
                 <th scope="col">Turma</th>
@@ -13,10 +12,13 @@
         <tbody>
             {loop="$aluno"}
             <tr>
-                <th scope="row">{$value.idstudent}</th>
                 <td>{$value.desnome}</td>
                 <td>{$value.descpf}</td>
-                <td>{$value.desturma}</td>
+                <td>{$value.descricao}</td>
+                <td style="width: 4cm;">
+                    <a class="btn btn-info" href="/adm/editaraluno?id={$value.idstudent}" role="button"><i class="fas fa-pencil-alt"></i> Editar</a>
+                    <a class="btn btn-danger" href="/adm/deletaraluno?id={$value.idstudent}" role="button"><i class="far fa-trash-alt"></i> Deletar</a>
+                </td> 
             </tr> 
             {/loop}
         </tbody>

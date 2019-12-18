@@ -13,6 +13,10 @@ $app->config('debug', true);
 require_once("site.php");
 require_once("adm.php");
 require_once("function.php");
+require_once("admNoticias.php");
+require_once("admAlunos.php");
+require_once("admProfessor.php");
+require_once("siteProfessor.php");
 
 $app->run();
 

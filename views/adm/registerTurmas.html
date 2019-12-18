@@ -1,0 +1,49 @@
+<div class="container p-3 mb-2 text-dark text-center" id="tmcont" style="font: normal 23px Robo; background-color: #CCCCCC" >
+    <h1 class="text-center">Cadastrar turmas</h1> <br>
+    <form role="form" method="POST" action="/adm/addturma">
+       <div class="form-group">
+            {if="$error == 1"}
+            <div class="alert alert-danger" role="alert">
+                <i class="fas fa-times-circle"></i>
+                Turma já cadastrada!
+            </div>
+            {/if}
+            {if="$success == 1"}
+            <div class="alert alert-success" role="alert">
+                <i class="fas fa-clipboard-check"></i>
+                Cadastrado com sucesso!
+            </div>
+            {/if}
+            <label form="descricao">Descrição:</label>
+            <input class="form-control" type="text" name="descricao"  placeholder="Digite a descrição da turma" required><br>
+            <div style="background-color: rgb(255, 255, 255);">
+                <label form="turno">Turno:</label>
+                <div class="form-check form-check-inline">
+                    <input class="form-check-input" type="radio" name="turno" value="Matutino">
+                    <label class="form-check-label" for="inlineRadio1">Matutino</label>
+                </div>
+                <div class="form-check form-check-inline">
+                    <input class="form-check-input" type="radio" name="turno" value="Vespertino">
+                    <label class="form-check-label" for="inlineRadio2">Vespertino</label>
+                </div>
+                <div class="form-check form-check-inline">
+                    <input class="form-check-input" type="radio" name="turno" value="Noturno">
+                    <label class="form-check-label" for="inlineRadio2">Noturno</label>
+                </div><br>
+            </div>
+            <br>
+            <div style="background-color: rgb(255, 255, 255);">
+                <label form="matérias" class="text-center">Matérias:</label><br>
+                {loop="$materias"}
+                <div class="form-check form-check-inline">
+                    <input class="form-check-input" type="checkbox" name="materias[]" value="{$value.id}">
+                    <label class="form-check-label" for="inlineCheckbox1">{$value.descricao}</label>
+                </div>
+                {/loop}
+            </div>
+            <br>
+            <input class="btn btn-success" type="submit" value="cadastrar"><br>
+            <div class="text-center"><img src="/arq/img/Logogrande.png" alt="Imagem" style="height: 8cm;"></div><br>
+        </div>
+    </form>
+</div>

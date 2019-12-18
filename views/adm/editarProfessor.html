@@ -1,0 +1,29 @@
+<div class="container p-3 mb-2 text-dark" id="tmcont" style="font: normal 23px Robo; background-color: #CCCCCC" >
+    <h1 class="text-center">Editar professor</h1> <br>
+    {loop="$professor"}
+    <form role="form" method="POST" action="/adm/editarprofessor?id={$value.idprof}">
+        <div class="form-group">
+            {if="$error == 1"}
+            <div class="alert alert-danger" role="alert">
+                <i class="fas fa-times-circle"></i>
+                Preencha todos os campos!
+            </div>
+            {/if}
+            {if="$success == 1"}
+            <div class="alert alert-success" role="alert">
+                <i class="fas fa-clipboard-check"></i>
+                Editado com sucesso!
+            </div>
+            {/if}
+            <label form="desnome">Nome:</label>
+            <input class="form-control" type="text" name="desnome"  value="{$value.desnome}"><br>
+            <label form="deslogin">CPF:</label>
+            <input class="form-control" type="text"  name="descpf" value="{$value.descpf}"><br>
+            <label form="deslogin">Código de login:</label>
+            <input class="form-control" type="text"  name="descodigo" value="{$value.descodigo}"><br>
+            <input class="btn btn-success" type="submit" value="cadastrar"><br>
+            <div class="text-center"><img src="/arq/img/Logogrande.png" alt="Imagem" style="height: 8cm;"></div><br>
+            {/loop}
+        </div>
+    </form>
+</div>

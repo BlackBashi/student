@@ -5,6 +5,7 @@ use Students\Classes\Page;
 use Students\Classes\DB\Sql;
 use Students\Classes\alunos;
 use Students\Classes\register;
+use Students\Classes\Boletim;
 use Students\Classes\PageAdmin;
 
 session_start();
@@ -49,124 +50,12 @@ $app->get('/adm/logout', function(){
 	die();
 });
 
-$app->get('/adm/alunos', function(){
-	register::verifyLoginAdm();
-	$Register = new register;
-
-	$alunos = $Register->listAllStudents();
-
-	//dd($alunos);
-	$page = new PageAdmin();
-	$page->setTpl("students", [
-		"aluno"=>$alunos
-	]);
-});
-
-$app->get('/adm/noticias', function(){
-	register::verifyLoginAdm();
-	$Page = new PageAdmin();
-	$Register = new register();
-
-	$results = $Register->listNoticias();
-	$Page->setTpl("noticias", [
-		"noticias"=>$results
-	]);
-});
-
-
-$app->get('/adm/novanoticia', function(){
-	register::verifyLoginAdm();
-	$page = new PageAdmin();
-
-	$error = isset($_GET['error']) && $_GET['error'] ? 1 : 0;
-	$success = isset($_GET['success']) && $_GET['success'] ? 1 : 0;
-
-	$page->setTpl("novaNoticia", [
-		"error"=>$error,
-		"success"=>$success
-	]);
-});
-
-$app->post('/adm/novanoticia', function(){
-	register::verifyLoginAdm();
-	$Register = new Register();
-	
-	if($_POST['desautor'] === "" || $_POST['destitulo'] === "" || $_POST['desdetails'] === ""){
-		header("Location: /adm/novanoticia?error=1");
-		die;
-	}
-	$Register->insertNoticias($_POST['desautor'], $_POST['destitulo'], $_POST['desdetails'], $_FILES['fileimage']['tmp_name']);
-	header("Location: /adm/novanoticia?success=1");
-	die;
-});
-
-$app->get('/adm/editarnoticia', function(){
-	register::verifyLoginAdm();
-	$page = new PageAdmin();
-	$Register = new register;
-
-	$results = $Register->dadosNoticia($_GET[1]);
-	$page->setTpl("editarNoticia", [
-		"results"=>$results
-	]);
-});
-
-$app->post('/adm/editarnoticia', function(){
-	register::verifyLoginAdm();
-	$Register = new Register();
-
-	$Register->editNoticia($_POST['desautor'], $_POST['destitulo'], $_POST['desdetails'], $_GET[1]);
-	header("Location: /adm/noticias");
-	die;
-});
-
-$app->get('/adm/deletarnoticia', function(){
-	register::verifyLoginAdm();
-	$Register = new Register();
-
-	$Register->deleteNoticia($_GET[1]);
-	header("Location: /adm/noticias");
-	die;
-});
-
-$app->get('/adm/professores', function(){
-	register::verifyLoginAdm();
-	$Register = new register;
-
-	$professores = $Register->listAllProfessores();
-
-	//dd($alunos);
-	$page = new PageAdmin();
-	$page->setTpl("professores", [
-		"professores"=>$professores
-	]);
-});
-
-/*$app->post('/ok', function(){
-	$register = new register;
-	$register->valiLoginAdm($_POST["deslogin"], $_POST["despassword"]);
-	dd($_SESSION);
-});*/
-
 $app->get('/adm/cadastrar', function(){
 	register::verifyLoginAdm();
 	$page = new PageAdmin();
 	$page->setTpl("cadastrar");
 });
 
-$app->get('/adm/cadastrar/alunos', function(){
-	register::verifyLoginAdm();
-	$page = new PageAdmin();
-	$page->setTpl("registerAlunos");
-});
-
-$app->post('/adm/cadastrar/alunos', function(){
-	
-	$register = new register;
-	$register->insertStudents($_POST["desnome"], $_POST["descpf"], $_POST["desturma"]);
-	$page = new PageAdmin();
-	$page->setTpl("registerAlunos");
-});
 
 $app->get('/adm/cadastrar/adm', function(){
 	register::verifyLoginAdm();
@@ -182,15 +71,100 @@ $app->post('/adm/cadastrar/adm', function(){
 	die;
 });
 
-$app->get('/adm/cadastrar/professor', function(){
+$app->get('/adm/turmas', function(){
 	register::verifyLoginAdm();
 	$page = new PageAdmin();
-	$page->setTpl("registerProfessores");
+	$register = new register;
+	$boletim = new Boletim;
+
+	$turmas = $boletim->turmas();
+	$page->setTpl("turmas", [
+		"turmas"=>$turmas,
+	]);
 });
 
-$app->post('/adm/cadastrar/professor', function(){
+$app->get('/adm/editarTurma', function(){
+	register::verifyLoginAdm();
+	$page = new PageAdmin();
 	$register = new register;
-	$register->insertProfessor($_POST["desnome"], $_POST["descpf"], $_POST["descodigo"]);
-	header("Location: /adm/cadastrar/professor");
+	$boletim = new Boletim;
+
+	$pagination = (isset($_GET["page"])) ?  (int)$_GET["page"] : 1;
+
+	if(isset($_GET["search"])){
+		$search = $boletim->searchProf($_GET["search"]);
+	}else{
+		$search = "";
+	}
+
+	$professoresadd = $boletim->turmaProfessores($_GET['id']);
+	$professores = $boletim->pageTurma($pagination);
+	$dados = $boletim->getTurma($_GET['id']);
+	$alunos = $register->listStudentsTurma($_GET['id']);
+	
+
+	$pages = [];
+
+	for ($i=1; $i <= $professores["pages"]; $i++){
+		array_push($pages, [
+			'link'=>"/adm/editarTurma?id=" . $_GET["id"]. "&page=" . $i,
+			'page'=>$i,
+		]);
+	}
+	
+
+	$materias = $boletim->turmaMaterias($_GET['id']);
+	$page->setTpl("editarTurma", [
+		"nome"=>$dados[0]["descricao"],
+		"dados"=>$dados,
+		"professores"=>$professores["professores"],
+		"materias"=>$materias,
+		"professoresadd"=>$professoresadd,
+		"idturma"=>$_GET["id"],
+		"pages"=>$pages,
+		"alunos"=>$alunos,
+		"search"=>$search
+	]);
+});
+
+$app->post('/adm/editarTurma', function(){
+	$boletim = new Boletim; 
+	if(isset($_POST["descricao"])){
+		$boletim->editTurma($_POST["descricao"], $_POST["turno"], intval($_POST["anoletivo"]), $_POST["idturma"]);
+		header("Location: /adm/editarTurma?id=" . $_POST["idturma"]);
+		die;
+	}
+	
+	if($_POST["search"] == ""){
+		header("Location: /adm/editarTurma?id=" . $_GET["id"]);
+		die;
+	}
+
+	header("Location: /adm/editarTurma?id=" . $_GET["id"] . "&search=" . $_POST["search"]);
+	die;
+});
+
+$app->get('/adm/deletarTurma', function(){
+	$boletim = new Boletim; 
+	$boletim->removeTurma($_GET["id"]);
+	header("Location: /adm/turmas");
+	die;
+});
+
+$app->post("/adm/addprof", function(){
+	$boletim = new Boletim;
+
+	$materia = $_POST["materia"];
+	$boletim->addProfessor($_GET["idturma"], $materia, $_GET["id"]);
+	header("Location: /adm/editarTurma?id=" . $_GET["idturma"]);
+	die;
+});
+
+$app->get("/adm/removerprof", function(){
+	$boletim = new Boletim;
+
+	$materia = "2";
+	$boletim->removeProfessor($_GET["id"]);
+	header("Location: /adm/editarTurma?id=" . $_GET["idturma"]);
 	die;
 });

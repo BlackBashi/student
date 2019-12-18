@@ -1,0 +1,14 @@
+<div class="container p-3 mb-2 bg-light text-dark">
+    <div class="row">
+        <div class="col-sm-8">
+            {loop="$aluno"}
+            <p><img src="/arq/img/upload/perfil/{$photo}" alt="perfil" style="height: 5cm;" class="rounded-circle border border-dark"></p>
+            <p><h2 style="font: normal 60px BigNoodleTitling;">{$value.desnomelogin}</h2></p>
+            <p><h4>CPF: {$value.descpf}</h4></p>
+            <p><h4>Turma: {$value.descricao}</h4></p>
+            <p><h4>Email: {$value.desaddress}</h4></p>
+            <p><h4>Número de telefone: {$value.desnumber}</h4></p>
+            {/loop}
+        </div>             
+    </div>
+</div>

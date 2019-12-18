@@ -1,16 +1,28 @@
 <div class="container p-3 mb-2 text-dark" id="tmcont" style="font: normal 23px Robo; background-color: #CCCCCC" >
     <h1 class="text-center">Editar noticia</h1> <br>
-    <form role="form" method="POST">
+    {loop="$results"}   
+    <form role="form" method="POST" action="/adm/editarnoticia?id={$value.idnoticia}">
+        {if="$error == 1"}
+        <div class="alert alert-danger" role="alert">
+            <i class="fas fa-times-circle"></i>
+            Preencha todos os campos!
+        </div>
+        {/if}
+        {if="$success == 1"}
+        <div class="alert alert-success" role="alert">
+            <i class="fas fa-clipboard-check"></i>
+            Editada com sucesso!
+        </div>
+        {/if}
         <div class="form-group">
-            {loop="$results"}
-            <label form="desautor">Autor:</label>
+            <i class="fas fa-user"></i> <label form="desautor">Autor:</label>
             <input class="form-control" type="text" name="desautor"  value="{$value.desautor}"><br>
-            <label form="destitulo">Título:</label>
+            <i class="fas fa-pencil-alt"></i> <label form="destitulo">Título:</label>
             <input class="form-control" type="text"  name="destitulo" value="{$value.destitulo}"><br>
-            <label form="destitulo">Detalhes:</label>
+            <i class="fas fa-info"></i> <label form="destitulo">Detalhes:</label>
             <textarea class="form-control"name="desdetails">{$value.desdetails}</textarea><br>
-            <input class="btn btn-success" type="submit" value="Postar"><br>
-            <div class="text-center"><img src="/arq/img/PTK-icon.png" alt="Imagem responsiva" class="img-rounded"></div><br>
+            <input class="btn btn-success" type="submit" value="Concluir"><br>
+            <div class="text-center"><img src="/arq/img/Logogrande.png" alt="Imagem" style="height: 8cm;"></div><br>
             {/loop}
         </div>
     </form>

@@ -13,19 +13,33 @@
     <script src="/arq/js/bootstrap.min.js"></script>
     <link rel="stylesheet" href="/arq/css/bootstrap.min.css">
     <link rel="stylesheet" href="/arq/css/estilos.css">
+    <script src="https://kit.fontawesome.com/891babefe4.js" crossorigin="anonymous"></script>
     <title>Teste</title>
 </head>
 <body class="backimageloginprofessor img-fluid">
         <div class="container border border-dark shadow-lg w-50 p-5 text-dark"  id="tmcont" style="height: 19,2cm; font: normal 23px Robo; background-color: #F0F0F0" >
-            <h1 class="text-center">Professor <br>Login</h1><br>
-            <form role="form" method="POST" action="/ok">
+            <a href="/" class="fas fa-arrow-left" style="color: black;"> Voltar</a>
+            <h1 class="text-center" style="font: normal 100px BigNoodleTitling">Professor <br>Login</h1><br>
+            {if="$error == 1"}
+                <div class="alert alert-danger" role="alert">
+                    <i class="fas fa-times-circle"></i>
+                    Senha ou usuário incorreto!
+                </div>
+            {/if}
+            {if="$logout == 1"}
+            <div class="alert alert-success" role="alert">
+                <i class="fas fa-clipboard-check"></i>
+                Deslogado com sucesso!
+            </div>
+            {/if}
+            <form role="form" method="POST" action="/professor">
                 <div class="form-group" style="font: normal 23px Robo" >
-                    <label class="campName" form="deslogin" style="font: normal 23px Robo">Login:</label>
+                    <i class="fas fa-chalkboard-teacher"></i> <label class="campName" form="deslogin" style="font: normal 23px Robo">Login:</label>
                     <input class="form-control" type="text"  name="deslogin" placeholder="Digite o seu login"><br>
-                    <label form="despassword">Senha:</label>
+                    <i class="fas fa-key"></i> <label form="despassword">Senha:</label>
                     <input class="form-control" type="password"  name="despassword" placeholder="Digite a sua senha"><br>
                     <div class="text-right"> <input class="btn btn-success" type="submit" value="Login"> <br></div>
-                    <div class="text-center"><img src="/arq/img/PTK-icon.png" alt="Imagem responsiva" class="img-rounded"></div><br>
+                    <div class="text-center"><img src="/arq/img/Logogrande.png" alt="Imagem" style="height: 8cm;"></div><br>
                 </div>    
             </form>
         </div>

@@ -14,18 +14,19 @@
                 Publicado com sucesso!
             </div>
             {/if}
-            <i class="fas fa-user-tie"></i>
-            <label form="desautor">Autor:</label>
+            <i class="fas fa-user-tie"></i> <label form="desautor">Autor:</label>
             <input class="form-control" type="text" name="desautor"  placeholder="Digite o nome do autor"><br>
-            <label form="destitulo">Título:</label>
+            <i class="fas fa-pencil-alt"></i> <label form="destitulo">Título:</label>
             <input class="form-control" type="text"  name="destitulo" placeholder="Digite o Título"><br>
-            <i class="fas fa-camera"></i>
-            <label form="destitulo">Imagem:</label><br>
-            <input class="btn btn-warning" type="file"  name="fileimage"><br>
-            <br><label form="destitulo">Detalhes:</label>
+            <i class="fas fa-camera"></i> <label form="imagem">Imagem:</label><br>
+            <div class="custom-file">
+                <input type="file" class="custom-file-input" name="fileimage">
+                <label class="custom-file-label" for="customFile">Escolha uma foto</label>
+            </div> <br>
+            <br><i class="fas fa-info-circle"></i> <label form="destitulo">Detalhes:</label>
             <textarea class="form-control"name="desdetails"> </textarea><br>
             <input class="btn btn-success" type="submit" value="Postar"><br>
-            <div class="text-center"><img src="/arq/img/PTK-icon.png" alt="Imagem responsiva" class="img-rounded"></div><br>
+            <div class="text-center"><img src="/arq/img/Logogrande.png" alt="Imagem" style="height: 8cm;"></div><br>
         </div>
     </form>
 </div>

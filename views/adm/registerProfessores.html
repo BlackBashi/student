@@ -2,14 +2,26 @@
     <h1 class="text-center">Cadastrar professor</h1> <br>
     <form role="form" method="POST" action="/adm/cadastrar/professor">
         <div class="form-group">
+            {if="$error == 1"}
+            <div class="alert alert-danger" role="alert">
+                <i class="fas fa-times-circle"></i>
+                Preencha todos os campos!
+            </div>
+            {/if}
+            {if="$success == 1"}
+            <div class="alert alert-success" role="alert">
+                <i class="fas fa-clipboard-check"></i>
+                Registrado com sucesso!
+            </div>
+            {/if}
             <label form="desnome">Nome:</label>
             <input class="form-control" type="text" name="desnome"  placeholder="Digite o nome do professor"><br>
             <label form="deslogin">CPF:</label>
-            <input class="form-control" type="text"  name="descpf" placeholder="Digite o CPF do professor"><br>
+            <input class="form-control" type="number"  name="descpf" placeholder="Digite o CPF do professor"><br>
             <label form="deslogin">Código de login:</label>
             <input class="form-control" type="text"  name="descodigo" placeholder="Digite o Código de login"><br>
             <input class="btn btn-success" type="submit" value="cadastrar"><br>
-            <div class="text-center"><img src="/arq/img/PTK-icon.png" alt="Imagem responsiva" class="img-rounded"></div><br>
+            <div class="text-center"><img src="/arq/img/Logogrande.png" alt="Imagem" style="height: 8cm;"></div><br>
         </div>
     </form>
 </div>

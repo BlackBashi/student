@@ -1,0 +1,62 @@
+<div class="container p-3 mb-2 text-dark" style="background-color: rgb(255, 255, 255); height: 20cm;">
+    <h1 class="text-center">Lista de alunos</h1><br>
+    <h2 class="text-center">{.$nome}</h2>
+    <div class="btn-toolbar" role="toolbar" aria-label="Toolbar with button groups">
+        <div class="btn-group mr-2" role="group" aria-label="First group">
+            <div class="dropdown">
+                <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    Turno
+                </button> 
+                <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                {loop="$turmas"}
+                    <a class="dropdown-item" href="#">{$value.turno}</a>
+                {/loop}
+                </div>
+            </div>
+        </div>
+        <div class="btn-group mr-2" role="group" aria-label="Second group">
+            <div class="dropdown">
+                <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    Bimestre
+                </button> 
+                <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                    {loop="$bimestre"}
+                    <a class="dropdown-item" href="#">{$value.bimestre}</a>
+                    {/loop}
+                </div>
+            </div>
+        </div>
+        <div class="btn-group" role="group" aria-label="Third group">
+            <div class="dropdown">
+                <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    Matéria
+                </button> 
+                <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                    <a class="dropdown-item" href="#">{.$value.descricao}</a>
+                </div>
+            </div>
+        </div>
+    </div>
+    <p>
+        <table class="table table-bordered table-dark">
+            <thead>
+                <tr>
+                    <th scope="col">Nome</th>
+                    <th scope="col">T</th>
+                    <th scope="col">C</th>
+                    <th scope="col">P</th>
+                    <th scope="col">M</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>{.$value.desnome}</td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                </tr>
+            </tbody>
+        </table>
+    </p>     
+</div>
