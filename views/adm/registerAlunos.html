@@ -19,73 +19,12 @@
             <label form="deslogin">CPF:</label>
             <input class="form-control" type="number"  name="descpf" placeholder="Digite o CPF do aluno"><br>
             <label form="desturma">Turma:</label><br>
-            <select name="desturma"> 
-                <option value=""></option> 
-                <option value="1º AM">1º AM</option>
-                <option value="1BM">1º BM</option>
-                <option value="1CM">1º CM</option>
-                <option value="1DM">1º DM</option>
-                <option value="1EM">1º EM</option>
-                <option value="1FM">1º FM</option>
-                <option value="1gM">1º GM</option>
-                <option value="2AM">2º AM</option>
-                <option value="2BM">2º BM</option>
-                <option value="2CM">2º CM</option>
-                <option value="2DM">2º DM</option>
-                <option value="2eM">2º EM</option>
-                <option value="2FM">2º FM</option>
-                <option value="2gM">2º GM</option>
-                <option value="3AM">3º AM</option>
-                <option value="3BM">3º BM</option>
-                <option value="3CM">3º CM</option>
-                <option value="3DM">3º DM</option>
-                <option value="3eM">3º EM</option>
-                <option value="3FM">3º FM</option>
-                <option value="3gM">3º GM</option>
-                <option value="1aV">1º AV</option>
-                <option value="1bV">1º BV</option>
-                <option value="1cV">1º CV</option>
-                <option value="1dV">1º DV</option>
-                <option value="1eV">1º EV</option>
-                <option value="1fV">1º FV</option>
-                <option value="1gV">1º GV</option>
-                <option value="2aV">2º AV</option>
-                <option value="2bV">2º BV</option>
-                <option value="2cV">2º CV</option>
-                <option value="2dV">2º DV</option>
-                <option value="2eV">2º EV</option>
-                <option value="2fV">2º FV</option>
-                <option value="2gV">2º GV</option>
-                <option value="3aV">3º AV</option>
-                <option value="3bV">3º BV</option>
-                <option value="3cV">3º CV</option>
-                <option value="3dV">3º DV</option>
-                <option value="3º EV">3º EV</option>
-                <option value="3º FV">3º FV</option>
-                <option value="3º GV">3º GV</option>
-                <option value="1º AN">1º AN</option>
-                <option value="1º BN">1º BN</option>
-                <option value="1º CN">1º CN</option>
-                <option value="1º DN">1º DN</option>
-                <option value="1º EN">1º EN</option>
-                <option value="1º FN">1º FN</option>
-                <option value="1º GN">1º GN</option>
-                <option value="2º AN">2º AN</option>
-                <option value="2º BN">2º BN</option>
-                <option value="2º CN">2º CN</option>
-                <option value="2º DN">2º DN</option>
-                <option value="2º EN">2º EN</option>
-                <option value="2º FN">2º FN</option>
-                <option value="2º GN">2º GN</option>
-                <option value="3º AN">3º AN</option>
-                <option value="3º BN">3º BN</option>
-                <option value="3º CN">3º CN</option>
-                <option value="3º DN">3º DN</option>
-                <option value="3º EN">3º EN</option>
-                <option value="3º FN">3º FN</option>
-                <option value="3º GN">3º GN</option>
-            </select><br>
-            <input class="btn btn-success" type="submit" value="cadastrar"><br>
+            <select class="form-control" style="width: 2cm;" name="desturma">
+                {loop="$turmas"}
+                <option value="{$value.id}">{$value.descricao}</option> 
+                {/loop}
+            </select>
+            <br><input class="btn btn-success" type="submit" value="cadastrar"><br>
             <div class="text-center"><img src="/arq/img/Logogrande.png" alt="Imagem" style="height: 8cm;"></div><br>
         </div>
     </form>

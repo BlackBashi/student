@@ -82,13 +82,13 @@ $app->get('/register', function() {
 
 $app->post('/register', function() {
 	register::issetLogin();
-	if($_POST["desnome"]  == "" || $_POST["deslogin"] == "" || $_POST["desaddress"] == "" || $_POST["despassword"] === "" || $_POST["desturma"] === ""){
+	if($_POST["desnome"]  == "" || $_POST["deslogin"] == "" || $_POST["desaddress"] == "" || $_POST["despassword"] === ""){
 		header("Location: /register?error=1");
 		die;
 	}
 
 	$cadastro = new register;
-	if($cadastro->insert($_POST["desnome"], $_POST["deslogin"], $_POST["desaddress"], $_POST["despassword"], $_POST["desturma"], $_FILES['fileimage']['tmp_name'], $_POST["descpf"])){
+	if($cadastro->insert($_POST["desnome"], $_POST["deslogin"], $_POST["desaddress"], $_POST["despassword"], $_FILES['fileimage']['tmp_name'], $_POST["descpf"])){
 		header("Location: /register?success=1");
 		die;
 	}else{
@@ -114,7 +114,6 @@ $app->get('/perfil', function(){
 		"headerAluno"=>$header['aluno'],
 		"headerProf"=>$header['professor']
 	]);
-
 	
 	$aluno = $Register->dadosLogin($_SESSION["user"]["idlogin"]);
 	$Page->setTpl("perfil", [
@@ -132,8 +131,6 @@ $app->get('/infoaluno', function(){
 		"headerAluno"=>$header['aluno'],
 		"headerProf"=>$header['professor']
 	]);$Register = new register;
-	
-
 	
 	$aluno = $Register->dadosLogin($_SESSION["user"]["idlogin"]);
 	$error = isset($_GET['error']) ? 1 : 0;

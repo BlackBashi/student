@@ -1,6 +1,6 @@
-<div class="container p-3 mb-2">
-    <div class="p-3 mb-2 text-dark" style="background-color: #CCCCCC">
-        <h1 class="text-center">Lista de turmas:</h1><br>
+<div class="container p-3 mb-2" style="background-color: white; height: 20cm;">
+    <div class="p-3 mb-2 text-dark">
+        <h1 class="text-center">Lista de salas:</h1><br>
         <table class="table table-bordered table-dark text-center">
             <thead>
                 <tr>
@@ -12,13 +12,10 @@
             <tbody>
                 {loop="$turmas"}
                 <tr>
-                    <td>{$value.descricao}</td>
+                    <td>{$value.descricao}</a></td>
                     <td>{$value.turno}</td>
                     <td>{$value.anoletivo}</td>
-                    <td style="width: 4cm;">
-                        <a class="btn btn-info" href="/adm/editarTurma?id={$value.id}" role="button"><i class="fas fa-pencil-alt"></i> Editar</a>
-                        <a class="btn btn-danger" href="/adm/deletarTurma?id={$value.id}" role="button"><i class="far fa-trash-alt"></i> Deletar</a>
-                    </td> 
+                    <td style="width: 4cm;"><a class="btn btn-info" href="/sala?turma={$value.id}" role="button"><i class="fas fa-pencil-alt"></i> Boletim</a></td>
                 </tr> 
                 {/loop}
             </tbody>

@@ -18,7 +18,7 @@ class register {
        }
    }
 
-    public function insert($desnome, $deslogin, $desaddress, $despassword, $desturma, $file = "", $descpf, $desnumber = ""){
+    public function insert($desnome, $deslogin, $desaddress, $despassword, $file = "", $descpf, $desnumber = ""){
         $conexao = new Sql;
         $results = $conexao->select("SELECT * FROM tb_students  idstudent WHERE descpf = :CPF", array(
             ":CPF"=>$descpf
@@ -31,7 +31,7 @@ class register {
                 move_uploaded_file($file, $diretorio.$novo_nome); //faz o upload
             }
             $passwordok = password_hash($despassword, PASSWORD_BCRYPT);
-            $conexao->query("INSERT INTO tb_logins (desnome, deslogin, desaddress, despassword, desturma, desimage, descpf, desnumber) VALUES ('$desnome', '$deslogin', '$desaddress', '$passwordok', '$desturma', '$novo_nome', '$descpf', '$desnumber')");
+            $conexao->query("INSERT INTO tb_logins (desnomelogin, deslogin, desaddress, despassword, desimage, descpf, desnumber) VALUES ('$desnome', '$deslogin', '$desaddress', '$passwordok', '$novo_nome', '$descpf', '$desnumber')");
             return true;
         }else{
             return false;
@@ -39,9 +39,33 @@ class register {
         
     }
 
-    public function insertStudents($desnome, $descpf, $desturma){
-        $conexao = new Sql;
-        $conexao->query("INSERT INTO tb_students (desnome, descpf, desturma) VALUES ('$desnome', '$descpf', '$desturma')");
+    public function insertStudents($desnome, $descpf, $turmaId){
+        $Sql = new Sql;
+        $turmas = $Sql->select("SELECT * FROM tb_students WHERE descpf = '$descpf'");
+        if(count($turmas) == 0){
+            $idstudent = $Sql->query(
+                "INSERT INTO tb_students (desnome, descpf) values (:desnome, :descpf)",
+                array(
+                    'desnome'=> $desnome,
+                    'descpf'=> $descpf
+                ),
+                true
+            );
+            $Sql->query("SET FOREIGN_KEY_CHECKS=0");
+            $Sql->query(
+                "INSERT INTO tb_turmas_students (idstudent, idturma) values (:idstudent, :idturma)",
+                array(
+                    'idstudent'=> $idstudent,
+                    'idturma'=> $turmaId
+                )
+            );
+            $Sql->query("SET FOREIGN_KEY_CHECKS=1");
+            header("Location: /adm/cadastrar/alunos?success=1");
+            die;
+        }else{
+            header("Location: /adm/cadastrar/alunos?error=1");
+            die;
+        }
     }
 
     public function insertProfessor($desnome, $descpf, $descodigo){
@@ -69,10 +93,16 @@ class register {
     public function valilogin($login, $senha){
         $sql = new Sql;
        
-        $results = $sql->select("SELECT * FROM tb_logins  idlogin WHERE deslogin = :LOGIN", array(
-            ":LOGIN"=>$login
-        ));
-        
+        $results = $sql->select(
+            "SELECT a.idstudent, a.desnome, a.descpf, b.descricao, d.desnumber, d.desnomelogin, d.desaddress, d.idlogin, d.deslogin, d.desimage, d.despassword FROM tb_students a
+            INNER JOIN tb_turmas_students c ON a.idstudent = c.idstudent 
+            INNER JOIN tb_turmas b ON c.idturma = b.id
+            INNER JOIN tb_logins d ON a.descpf = d.descpf WHERE d.deslogin = :deslogin",
+            array(
+                ":deslogin"=>$login
+            )
+        );
+
         if (count($results)) {
             $password = $results[0]["despassword"];
             $senharesult = password_verify($senha, $password);
@@ -123,10 +153,29 @@ class register {
 
     public function valiLoginProf($login, $senha){
         $sql = new Sql;
+        $query = "SELECT 
+            a.idturma, 
+            a.idprofessor, 
+            a.idmateria, 
+            b.desnome, 
+            c.descricao, 
+            c.turno, 
+            c.anoletivo, 
+            b.idprof, 
+            b.descpf, 
+            b.desaddress, 
+            b.desnumero, 
+            b.desnome, 
+            b.descodigo, 
+            b.desimage, 
+            b.desnumero, 
+            b.despassword 
+        FROM  tb_professores b 
+        INNER JOIN tb_turmas_professores a ON  a.idprofessor = b.idprof 
+        INNER JOIN tb_turmas c ON a.idturma = c.id 
+        WHERE b.descpf = '{$login}'";
        
-        $results = $sql->select("SELECT * FROM tb_professores  id WHERE descpf = :LOGIN", array(
-            ":LOGIN"=>$login
-        ));
+        $results = $sql->select($query);
        
         if (count($results)) {
             $codigo = $results[0]["descodigo"];
@@ -215,7 +264,13 @@ class register {
 
     public function listAllStudents(){
         $sql = new Sql;
-        $results = $sql->select("SELECT * FROM tb_students ORDER BY desnome");
+        $results = $sql->select("SELECT a.idstudent, a.desnome, a.descpf, b.descricao FROM tb_students a INNER JOIN tb_turmas_students c ON a.idstudent = c.idstudent INNER JOIN tb_turmas b ON c.idturma = b.id ORDER BY a.desnome ASC ;");
+        return($results);
+    }
+
+    public function listStudentsTurma($id){
+        $sql = new Sql;
+        $results = $sql->select("SELECT a.idstudent, a.desnome, a.descpf, b.descricao FROM tb_students a INNER JOIN tb_turmas_students c ON a.idstudent = c.idstudent INNER JOIN tb_turmas b ON c.idturma = b.id WHERE c.idturma = $id ORDER BY a.desnome ASC ;");
         return($results);
     }
 
@@ -241,26 +296,35 @@ class register {
 
     public function dadosAluno($id){
         $sql = new Sql;
-        $results = $sql->select("SELECT * FROM tb_students WHERE idstudent = :ID", array(
-            ":ID"=>$id
-        ));
+        $results = $sql->select(
+            "SELECT a.idstudent, a.desnome, a.descpf, b.descricao, d.desnumber, d.desaddress, d.desnomelogin, d.deslogin FROM tb_students a
+            INNER JOIN tb_turmas_students c ON a.idstudent = c.idstudent 
+            INNER JOIN tb_turmas b ON c.idturma = b.id
+            INNER JOIN tb_logins d ON a.descpf = d.descpf WHERE a.idstudent = :ID",
+            array(
+                ":ID"=>$id
+            )
+        );
         return($results);
     }
 
     public function dadosLogin($id){
         $sql = new Sql;
-        $results = $sql->select("SELECT * FROM tb_logins WHERE idlogin = :ID", array(
-            ":ID"=>$id
-        ));
+        $results = $sql->select("SELECT a.idstudent, a.desnome, a.descpf, b.descricao, d.desnumber, d.desnomelogin, d.desaddress, d.deslogin FROM tb_students a
+            INNER JOIN tb_turmas_students c ON a.idstudent = c.idstudent 
+            INNER JOIN tb_turmas b ON c.idturma = b.id
+            INNER JOIN tb_logins d ON a.descpf = d.descpf WHERE d.idlogin = :ID",
+            array(
+                ":ID"=>$id
+            )
+        );
         return($results);
     }
 
     public function dadosProfessor($id){
         $sql = new Sql;
-        $results = $sql->select("SELECT * FROM tb_professores WHERE idprof = :ID", array(
-            ":ID"=>$id
-        ));
-        return($results);
+        $results = $sql->select("SELECT a.idturma, a.idprofessor, a.idmateria, b.desnome, c.descricao, c.turno, c.anoletivo, b.idprof, b.descpf, b.desaddress, b.desnumero FROM  tb_professores b INNER JOIN tb_turmas_professores a ON a.idprofessor = b.idprof INNER JOIN tb_turmas c ON a.idturma = c.id WHERE b.idprof = '$id'");
+        return $results;
     }
 
     public function editNoticia($desautor, $destitulo, $desdetails, $id){
@@ -281,7 +345,7 @@ class register {
             $novo_nome = md5(time()) . $extensão; //nome da imagem
             $diretorio = "/home/mauricio/www/student/arq/img/upload/perfil/";
             move_uploaded_file($file, $diretorio.$novo_nome); //faz o upload
-            $sql->query("UPDATE tb_logins SET desnome = :DESNOME, desaddress = :DESADDRESS, desimage = :DESIMAGE, desnumber = :DESNUMBER WHERE idlogin = :ID", array(
+            $sql->query("UPDATE tb_logins SET desnomelogin = :DESNOME, desaddress = :DESADDRESS, desimage = :DESIMAGE, desnumber = :DESNUMBER WHERE idlogin = :ID", array(
                 ":DESNOME"=>$desnome,
                 ":DESADDRESS"=>$desemail,
                 ":DESNUMBER"=>$desnumber,
@@ -292,7 +356,7 @@ class register {
             
 	        die;
         }else{
-            $sql->query("UPDATE tb_logins SET desnome = :DESNOME, desaddress = :DESADDRESS, desnumber = :DESNUMBER WHERE idlogin = :ID", array(
+            $sql->query("UPDATE tb_logins SET desnomelogin = :DESNOME, desaddress = :DESADDRESS, desnumber = :DESNUMBER WHERE idlogin = :ID", array(
                 ":DESNOME"=>$desnome,
                 ":DESADDRESS"=>$desemail,
                 ":DESNUMBER"=>$desnumber,
@@ -301,7 +365,7 @@ class register {
             header("Location: /infoaluno?success=1");
 	        die;
         }
-    }
+    } 
 
     public function editLoginP($desnome, $desemail, $desnumber, $file, $id){
         $sql = new Sql;
@@ -378,12 +442,11 @@ class register {
 
    }
 
-    public function editAluno($desnome, $descpf, $desturma, $id){
+    public function editAluno($desnome, $descpf,  $id){
         $sql = new Sql;
-        $sql->query("UPDATE tb_students SET desnome = :DESNOME, descpf = :DESCPF, desturma = :DESTURMA WHERE idstudent = :ID", array(
+        $sql->query("UPDATE tb_students SET desnome = :DESNOME, descpf = :DESCPF WHERE idstudent = :ID", array(
             ":DESNOME"=>$desnome,
             ":DESCPF"=>$descpf,
-            ":DESTURMA"=>$desturma,
             ":ID"=>$id
         ));
     }

@@ -5,6 +5,7 @@ use Students\Classes\Page;
 use Students\Classes\DB\Sql;
 use Students\Classes\alunos;
 use Students\Classes\register;
+use Students\Classes\Boletim;
 use Students\Classes\PageAdmin;
 
 $app->get('/professor', function() {
@@ -58,7 +59,11 @@ $app->get('/perfilProfessor', function(){
 	
 	$professor = $Register->dadosProfessor($_SESSION["userProf"]["idprof"]);
 	$Page->setTpl("perfilProfessor", [
-		"professor"=>$professor
+		"desnome"=>$professor[0]["desnome"],
+		"descpf"=>$professor[0]["descpf"],
+		"desaddress"=>$professor[0]["desaddress"],
+		"desnumero"=>$professor[0]["desnumero"],
+		"turmas"=>$professor
 	]);
 });
 
@@ -79,7 +84,10 @@ $app->get('/infoprofessor', function(){
 	$errorsenha = isset($_GET['errorsenha']) ? 1 : 0;
 	$success = isset($_GET['success']) ? 1 : 0;
 	$Page->setTpl("infoProfessor", [
-		"professor"=>$professor,
+		"desnome"=>$professor[0]["desnome"],
+		"descpf"=>$professor[0]["descpf"],
+		"desaddress"=>$professor[0]["desaddress"],
+		"desnumero"=>$professor[0]["desnumero"],
 		"success"=>$success,
 		"error"=>$error,
 		"errorsenha"=>$errorsenha
@@ -104,4 +112,38 @@ $app->post('/infoprofessor', function(){
 		$Register->editLoginP($_POST["desnome"], $_POST["desaddress"], $_POST["desnumber"], $image, $_SESSION["userProf"]["idprof"]);
 	}
 	$Register->editPasswordP($_POST["antiga"], $_POST["nova"], $_SESSION["userProf"]["idprof"]);
+});
+
+$app->get("/salas", function(){
+	$Register = new register;
+	$Boletim = new Boletim;
+	register::NOTissetLogin();
+
+	$header = $Register->verifyHeader();
+	$Page = new Page([
+		"header"=>$header['user'],
+		"headerAluno"=>$header['aluno'],
+		"headerProf"=>$header['professor']
+	]);
+
+	$turmas = $Boletim->professorTurmas($_SESSION["userProf"]["idprof"]);
+
+	$Page->setTpl("salas", [
+		"turmas"=>$turmas
+	]);
+});
+
+$app->get("/sala", function(){
+	$Register = new register;
+	$Boletim = new Boletim;
+	register::NOTissetLogin();
+
+	$header = $Register->verifyHeader();
+	$Page = new Page([
+		"header"=>$header['user'],
+		"headerAluno"=>$header['aluno'],
+		"headerProf"=>$header['professor']
+	]);
+
+	$Page->setTpl("boletimprof");
 });

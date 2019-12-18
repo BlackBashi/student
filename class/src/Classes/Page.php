@@ -29,6 +29,7 @@ class Page {
         $this->setData($this->options["data"]);
         //pega só o 1º nome
         if(isset($_SESSION["user"]["desnome"])){
+            
             $desnomea = $_SESSION["user"]["desnome"];
             $results = explode(" ", $desnomea);
         }

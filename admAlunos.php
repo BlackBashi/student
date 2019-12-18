@@ -5,6 +5,7 @@ use Students\Classes\Page;
 use Students\Classes\DB\Sql;
 use Students\Classes\alunos;
 use Students\Classes\register;
+use Students\Classes\Boletim;
 use Students\Classes\PageAdmin;
 
 
@@ -24,12 +25,15 @@ $app->get('/adm/alunos', function(){
 $app->get('/adm/cadastrar/alunos', function(){
 	register::verifyLoginAdm();
 	$page = new PageAdmin();
+	$Boletim = new Boletim;
 
+	$turmas = $Boletim->turmas();
 	$error = isset($_GET["error"]) && $_GET["error"] ? 1 : 0;
 	$success = isset($_GET["success"]) && $_GET["success"] ? 1 : 0;
 	$page->setTpl("registerAlunos", [
 		"error"=>$error,
-		"success"=>$success
+		"success"=>$success,
+		"turmas"=>$turmas
 	]);
 });
 

@@ -1,14 +1,15 @@
 <div class="container p-3 mb-2 text-dark" id="tmcont" style="width: 20cm; height: 4cm; font: normal 23px Robo; background-color: #CCCCCC" >
     <h1 class="text-center" style="font: normal 100px BigNoodleTitling;">Editar turma: {$nome}</h1> <br>
 </div>    
-<div class="container p-3 mb-2 text-dark text-center" id="tmcont" style="width: 10cm; height: 10cm; font: normal 23px Robo; background-color: #CCCCCC" >
+<div class="container p-3 mb-2 text-dark text-center" style="width: 50cm; height: 12cm; font: normal 23px Robo; background-color: #CCCCCC" >
+    <div class="container text-center" style="width: 5cm; height: 5cm;">
     <form role="form" method="POST" action="/adm/editarTurma">
         <i class="fas fa-align-justify"></i> <label style="font: normal 30px BigNoodleTitling;">Descrição:</label><br>
         {loop="$dados"}
         <INPUT type="hidden" name="idturma" value="{$value.id}">
-        <input class="text-center" type="text" name="descricao" style="width: 4cm;" value="{$value.descricao}"><br>
+        <input class="text-center form-control" type="text" name="descricao" style="width: 4cm;" value="{$value.descricao}"><br>
         <br><i class="far fa-clock"></i> <label style="font: normal 30px BigNoodleTitling;">Turno:</label><br>
-        <select class="text-center" style="width: 4cm;" name="turno">
+        <select class="text-center form-control" style="width: 4cm;" name="turno">
             <option value="{$value.turno}">{$value.turno}</option>
             <option value="Matutino">Matutino</option>
             <option value="Vespertino">Vespertino</option>
@@ -19,47 +20,109 @@
         <br> <input class="btn btn-success" type="submit" value="Alterar"><br> 
         {/loop}
     </form>
+    </div>
 </div>
-<div class="container p-3 mb-2 text-dark" id="tmcont" style="width: 50cm; height: 23cm; font: normal 23px Robo; background-color: #CCCCCC" >    
+<div class="container p-3 mb-2 text-dark" style="width: 50cm; height: 27cm; font: normal 23px Robo; background-color: #CCCCCC" >    
     <table class="table table-bordered table-active" style="width: 13cm; float: left;">
-            <thead>
-                <tr>
-                    <th scope="col" class="text-center" colspan="3" style="font: normal 30px BigNoodleTitling;">Lista de professores</th>
-                </tr>
-            </thead>
-            <tbody>
-                {loop="$professores"}
-                <form role="form" method="POST" action="/adm/addprof?id={$value.idprof}&idturma={$idturma}">
-                <tr>
-                    <td class="d-inline-block text-truncate" style="max-width: 5.5cm; font: bolder 20px Roboto;"><h:inputText value="{$value.idprof}" name="idprofessor"/>{$value.desnome} </td>
-                    <td  style="width: 6cm;" class="text-center">
-                        <select class="form-control" name="materia">
-                            {loop="$materias"}
-                            <option value="{$value.idmateria}">{$value.descricao}</option>
+        <thead>
+            <tr>
+                <th scope="col" class="text-center" colspan="3" style="font: normal 30px BigNoodleTitling;">Lista de professores</th>
+            </tr>
+            <tr>
+                <td colspan="3">
+                    <form class="form-inline" method="POST" action="/adm/editarTurma?id={$idturma}">
+                        <input class="form-control mr-sm-2 text-center" type="search" placeholder="Pesquisar" name="search">
+                        <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Pesquisar</button>
+                    </form>
+                </td>
+            </tr>
+        </thead>
+        <tbody>
+
+            {if="$search == ''"}
+            {loop="$professores"}
+            <form role="form" method="POST" action="/adm/addprof?id={$value.idprof}&idturma={$idturma}">
+            <tr>
+                <td class="d-inline-block text-truncate" style="max-width: 5.5cm; font: bolder 20px Roboto;"><h:inputText value="{$value.idprof}" name="idprofessor"/>{$value.desnome} </td>
+                <td  style="width: 6cm;" class="text-center">
+                    <select class="form-control" name="materia">
+                        {loop="$materias"}
+                        <option value="{$value.idmateria}">{$value.descricao}</option>
+                        {/loop}
+                    </select>
+                </td>
+                <td style="width: 4cm;" class="text-center"><input class="btn btn-success" type="submit" value="Adicionar"></td>
+            </tr>
+            </form>
+            {/loop}
+            {/if}
+
+            {if="$search != '' "}
+            {loop="$search"}
+            <form role="form" method="POST" action="/adm/addprof?id={$value.idprof}&idturma={$idturma}">
+            <tr>
+                <td class="d-inline-block text-truncate" style="max-width: 5.5cm; font: bolder 20px Roboto;"><h:inputText value="{$value.idprof}" name="idprofessor"/>{$value.desnome} </td>
+                <td  style="width: 6cm;" class="text-center">
+                    <select class="form-control" name="materia">
+                        {loop="$materias"}
+                        <option value="{$value.idmateria}">{$value.descricao}</option>
+                        {/loop}
+                    </select>
+                </td>
+                <td style="width: 4cm;" class="text-center"><input class="btn btn-success" type="submit" value="Adicionar"></td>
+            </tr>
+            </form>
+            {/loop}
+            {/if}
+            
+            {if="$search == '' "}
+            <tr>
+                <td colspan="3">
+                    <nav style="background-color: #CCCCCC; float: none;">
+                        <ul class="pagination pagination-sm">
+                            {loop="$pages"}
+                            <li class="page-item"><a class="page-link" href="{$value.link}">{$value.page}</a></li>
                             {/loop}
-                        </select>
-                    </td>
-                    <td style="width: 4cm;" class="text-center"><input class="btn btn-success" type="submit" value="Adicionar"></td>
-                </tr>
-                </form>
-                {/loop}
-            </tbody> 
-        </table>
-    
-        <table class="table table-bordered table-active" style="width: 13cm; float: right; top: 1cm">
-            <thead>
-                <tr>
-                    <th scope="col" class="text-center" colspan="3" style="font: normal 30px BigNoodleTitling;">Professores adicionados</th>
-                </tr>
-            </thead>
-            <tbody>
-                {loop="$professoresadd"}
-                <tr>
-                    <td class="d-inline-block text-truncate" style="max-width: 5cm; font: bolder 20px Roboto;">{$value.desnome}</td>
-                    <td class="text-center" style="width: 5cm; font: bolder 20px Roboto;">{$value.descricao}</td>
-                    <td style="width: 4cm;"><a href="/adm/removerprof?id={$value.idprof}&idturma={$idturma}"><button type="button" class="btn btn-danger"  style="height: 30px; font: bolder 15px Roboto;"><i class="fas fa-arrow-left" style="height: 10px;"></i> Remover </button></a></td>
-                </tr>
-                {/loop}
-            </tbody> 
-        </table>
+                        </ul>
+                    </nav>
+                </td>
+            </tr>
+            {/if}
+        </tbody> 
+    </table>
+    <table class="table table-bordered table-active" style="width: 13cm; float: right;">
+        <thead>
+            <tr>
+                <th scope="col" class="text-center" colspan="3" style="font: normal 30px BigNoodleTitling;">Professores adicionados</th>
+            </tr>
+        </thead>
+        <tbody>
+            {loop="$professoresadd"}
+            <tr>
+                <td class="d-inline-block text-truncate" style="max-width: 5cm; font: bolder 20px Roboto;">{$value.desnome}</td>
+                <td class="text-center" style="width: 5cm; font: bolder 20px Roboto;">{$value.descricao}</td>
+                <td style="width: 4cm;"><a href="/adm/removerprof?id={$value.idprof}&idturma={$idturma}"><button type="button" class="btn btn-danger"  style="height: 38px; font: bolder 15px Roboto;"><i class="fas fa-arrow-left" style="height: 10px;"></i> Remover </button></a></td>
+            </tr>
+            {/loop}
+        </tbody> 
+    </table>
+</div>
+<div class="container p-3 mb-2 text-dark" style="width: 50cm; height: 24cm; font: normal 23px Robo; background-color: #CCCCCC" >
+        <h1 class="text-center">Lista de alunos:</h1><br>
+    <table class="table table-bordered table-dark">
+        <thead>
+            <tr>
+                <th scope="col">Nome</th>
+                <th scope="col">CPF</th>
+            </tr>
+        </thead>
+        <tbody>
+            {loop="$alunos"}
+            <tr>
+                <td>{$value.desnome}</td>
+                <td>{$value.descpf}</td>
+            </tr> 
+            {/loop}
+        </tbody>
+    </table>
 </div>

@@ -1,32 +1,20 @@
-<div class="container">
-<div class="p-3 mb-2 text-dark" style="background-color: rgb(255, 255, 255)">
-    <h1 class="text-center">Lista de alunos:</h1><br>
-    <div class="btn-group">
-        <div class="dropdown">
-            <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                Turno
-            </button> 
-            <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-            {loop="$turmas"}
-                <a class="dropdown-item" href="#">{$value.turno}</a>
-            {/loop}
+<div class="container p-3 mb-2 text-dark" style="background-color: rgb(255, 255, 255); height: 20cm;">
+    <h1 class="text-center">Lista de alunos</h1><br>
+    <h2 class="text-center">{.$nome}</h2>
+    <div class="btn-toolbar" role="toolbar" aria-label="Toolbar with button groups">
+        <div class="btn-group mr-2" role="group" aria-label="First group">
+            <div class="dropdown">
+                <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    Turno
+                </button> 
+                <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                {loop="$turmas"}
+                    <a class="dropdown-item" href="#">{$value.turno}</a>
+                {/loop}
+                </div>
             </div>
         </div>
-    </div>
-    <div class="btn-group">
-        <div class="dropdown">
-            <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                Turmas
-            </button> 
-            <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-            {loop="$turmas"}
-            <a class="dropdown-item" href="#">{$value.descricao}</a>
-            {/loop}
-            </div>
-        </div>
-    </div><br>
-    <p>
-        <div class="btn-group">
+        <div class="btn-group mr-2" role="group" aria-label="Second group">
             <div class="dropdown">
                 <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                     Bimestre
@@ -38,17 +26,17 @@
                 </div>
             </div>
         </div>
-        <div class="btn-group">
+        <div class="btn-group" role="group" aria-label="Third group">
             <div class="dropdown">
                 <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                     Matéria
                 </button> 
                 <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                <a class="dropdown-item" href="#">{.$value.descricao}</a>
+                    <a class="dropdown-item" href="#">{.$value.descricao}</a>
                 </div>
             </div>
         </div>
-    </p>
+    </div>
     <p>
         <table class="table table-bordered table-dark">
             <thead>
@@ -71,5 +59,4 @@
             </tbody>
         </table>
     </p>     
-    </div>
 </div>

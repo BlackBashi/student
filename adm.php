@@ -89,25 +89,65 @@ $app->get('/adm/editarTurma', function(){
 	$register = new register;
 	$boletim = new Boletim;
 
+	$pagination = (isset($_GET["page"])) ?  (int)$_GET["page"] : 1;
+
+	if(isset($_GET["search"])){
+		$search = $boletim->searchProf($_GET["search"]);
+	}else{
+		$search = "";
+	}
+
 	$professoresadd = $boletim->turmaProfessores($_GET['id']);
-	$professores = $register->listAllProfessores();
+	$professores = $boletim->pageTurma($pagination);
 	$dados = $boletim->getTurma($_GET['id']);
+	$alunos = $register->listStudentsTurma($_GET['id']);
 	
+
+	$pages = [];
+
+	for ($i=1; $i <= $professores["pages"]; $i++){
+		array_push($pages, [
+			'link'=>"/adm/editarTurma?id=" . $_GET["id"]. "&page=" . $i,
+			'page'=>$i,
+		]);
+	}
+	
+
 	$materias = $boletim->turmaMaterias($_GET['id']);
 	$page->setTpl("editarTurma", [
 		"nome"=>$dados[0]["descricao"],
 		"dados"=>$dados,
-		"professores"=>$professores,
+		"professores"=>$professores["professores"],
 		"materias"=>$materias,
 		"professoresadd"=>$professoresadd,
-		"idturma"=>$_GET["id"]
+		"idturma"=>$_GET["id"],
+		"pages"=>$pages,
+		"alunos"=>$alunos,
+		"search"=>$search
 	]);
 });
 
 $app->post('/adm/editarTurma', function(){
 	$boletim = new Boletim; 
-	$boletim->editTurma($_POST["descricao"], $_POST["turno"], intval($_POST["anoletivo"]), $_POST["idturma"]);
-	header("Location: /adm/editarTurma?id=" . $_POST["idturma"]);
+	if(isset($_POST["descricao"])){
+		$boletim->editTurma($_POST["descricao"], $_POST["turno"], intval($_POST["anoletivo"]), $_POST["idturma"]);
+		header("Location: /adm/editarTurma?id=" . $_POST["idturma"]);
+		die;
+	}
+	
+	if($_POST["search"] == ""){
+		header("Location: /adm/editarTurma?id=" . $_GET["id"]);
+		die;
+	}
+
+	header("Location: /adm/editarTurma?id=" . $_GET["id"] . "&search=" . $_POST["search"]);
+	die;
+});
+
+$app->get('/adm/deletarTurma', function(){
+	$boletim = new Boletim; 
+	$boletim->removeTurma($_GET["id"]);
+	header("Location: /adm/turmas");
 	die;
 });
 
