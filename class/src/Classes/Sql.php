@@ -9,6 +9,7 @@ class Sql{
     private $conn;
 
     public function __construct(){
+        1
         $results = parse_ini_file("db.ini");
         $this->conn = new \PDO("mysql:dbname=".$results['dbname'].";host=".$results['hostname'], $results['username'], $results['password']);
         $this->conn->setAttribute(\PDO::ATTR_ERRMODE, \PDO::ERRMODE_EXCEPTION);
