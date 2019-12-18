@@ -5,18 +5,10 @@ namespace Students\Classes;
 
 class Sql{
     
-    const HOSTNAME = "127.0.0.1";
-    const USERNAME = "mauricio";
-    const PASSWORD = "123456";
-    const DBNAME = "alunos";
-
-    private $conn;
-
     public function __construct(){
+        $results = parse_ini_file("db.ini");
         $this->conn = new \PDO(
-			"mysql:dbname=".Sql::DBNAME.";host=".Sql::HOSTNAME, 
-			Sql::USERNAME,
-			Sql::PASSWORD
+			"mysql:dbname=".$results["dbname"].";host=".$results["hostname"], $results["username"], $results["password"]
 		);
         $this->conn->setAttribute(\PDO::ATTR_ERRMODE, \PDO::ERRMODE_EXCEPTION);
         $this->query("SET NAMES utf8");
