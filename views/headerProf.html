@@ -12,47 +12,48 @@
     <script src="/arq/js/bootstrap.min.js"></script>
     <script src="/arq/js/fontawesome.js"></script>
     <script src="/arq/js/rellax.js"></script>
+    <script src="/arq/js/tabelacomajax.js"></script>
     <link rel="shortcut icon" type="image/x-icon" href="/arq/img/icone-livro.ico">
     <script>
       var rellax = new Rellax('.rellax');
     </script>
     <link rel="stylesheet" href="/arq/css/bootstrap.min.css">
     <link rel="stylesheet" href="/arq/css/estilos.css">
+    <link rel="stylesheet" href="/arq/css/header.css">
     <title>Student</title>
 </head>
 <body class="backimageregister paralax" >
-    <nav class="navbar navbar-expand-lg p-3 mb-2 bg-light text-dark" style="font: normal 30px BigNoodleTitling" >
+    <nav class="scale-up-hor-left navbar navbar-expand-lg navbar-light bg-light" style="font: normal 30px BigNoodleTitling; width: 100%;">
        <a href="/"><img src="/arq/img/logoprofessores.png" alt="Logo" href="/"></a>
-        <div class="container">
-            <a class="navbar-brand text-dark" href="/"><i class="fas fa-home"></i> Inicio</a>
-            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSite">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="collapse navbar-collapse" id="navbarSite">
-                
-                <ul class="navbar-nav">
-                    <li class="nav-item">
-                        <a class="nav-link text-info" href="/perfilProfessor" > <img src="/arq/img/upload/perfil/{$photo}" alt="perfil" style="height: 1cm;" class="rounded-circle border border-dark">  {$professor}</a>
-                    </li>
-                </ul>
-                <ul class="navbar-nav">
-                    <li class="nav-item">
-                        <a class="nav-link text-dark" href="/salas"> <i class="fas fa-book"></i> Salas</a>
-                    </li>
-                </ul>
-                <ul class="navbar-nav">
-                    <li class="nav-item">
-                        <div class="dropdown">
-                            <button class="btn btn-white dropdown-toggle" style="font: normal 27px BigNoodleTitling ;" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                    <i class="fas fa-cog"></i> Configurações
-                            </button>
-                            <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                                <a class="dropdown-item" href="/infoprofessor"> <i class="fas fa-info"></i> Informações</a>
-                                <a class="dropdown-item" href="/logoutprofessor"> <i class="fas fa-sign-out-alt"></i> Sair</a>
-                            </div>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSite">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarSite">
+            <ul class="navbar-nav">
+                <a class="navbar-brand text-dark" href="/"><i class="fas fa-home"></i> Inicio</a>
+            </ul>
+            <ul class="navbar-nav">
+                <li class="nav-item">
+                    <a class="nav-link text-info" href="/perfilProfessor" > <img src="/arq/img/upload/perfil/{$photo}" alt="perfil" style="height: 1cm;" class="rounded-circle border border-dark">  {$professor}</a>
+                </li>
+            </ul>
+            <ul class="navbar-nav">
+                <li class="nav-item">
+                    <a class="nav-link text-dark" href="/salas"> <i class="fas fa-book"></i> Salas</a>
+                </li>
+            </ul>
+            <ul class="navbar-nav">
+                <li class="nav-item">
+                    <div class="dropdown">
+                        <button class="btn btn-white dropdown-toggle" style="font: normal 27px BigNoodleTitling ;" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                <i class="fas fa-cog"></i> Configurações
+                        </button>
+                        <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                            <a class="dropdown-item" href="/infoprofessor"> <i class="fas fa-info"></i> Informações</a>
+                            <a class="dropdown-item" href="/logoutprofessor"> <i class="fas fa-sign-out-alt"></i> Sair</a>
                         </div>
-                    </li>
-                </ul>
-            </div>
+                    </div>
+                </li>
+            </ul>
         </div>
-    </nav>
+    </nav><br>

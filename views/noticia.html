@@ -1,0 +1,17 @@
+<div class="col-md-7"> 
+    <div class="container text-dark " >
+    <a href="/"> <h1 class="voltar"><i class="fas fa-arrow-left"></i> Voltar</h1></a>
+    {loop="$results"}
+        <div class="row">
+            <div class="col-sm text-center">
+                <h1 class="display-4 text-center" style="font: normal 70px BigNoodleTitling;">{$value.destitulo}</h1>
+                <img class="img-fluid" src="/arq/img/upload/{$value.desimage}" alt="">
+            </div>
+        </div><br>
+        <div class="col-sm">
+            <p class="lead text-justify" style="font: normal 30px CenturySchL-Roma">{$value.desdetails}</p>
+            <h5 class="lead text-justify" style="font: normal 20px CenturySchL-Roma">Publicado por: {$value.desautor}</h5>
+        </div>
+      {/loop}
+    </div>
+</div>

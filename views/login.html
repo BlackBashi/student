@@ -12,14 +12,15 @@
     <script src="/arq/js/popper.min.js"></script>
     <script src="/arq/js/bootstrap.min.js"></script>
     <link rel="stylesheet" href="/arq/css/bootstrap.min.css">
-    <link rel="stylesheet" media="(max-width : 2550px)" href="/arq/css/estilos.css">
+    <link rel="stylesheet" href="/arq/css/login.css">
+    <link rel="stylesheet" href="/arq/css/estilos.css">
     <script src="https://kit.fontawesome.com/891babefe4.js" crossorigin="anonymous"></script>
     <title>Login</title>
 </head>
 <body class="backimagelogin paralax">
-        <div class="container border border-dark shadow-lg w-50 p-5 text-dark"  id="tmcont" style="height: 19,2cm; font: normal 23px Robo; background-color: #F0F0F0" >
-            <a href="/" class="fas fa-arrow-left" style="color: black;"> Voltar</a>
-            <div class="text-center"><img src="/arq/img/Logogrande.png" alt="Imagem" style="height: 8cm;"></div><br>
+        <div class="container col-10 col-md-5 border border-dark shadow-lg p-5 text-dark slide-in-elliptic-top-fwd">
+            <a href="/"> <h6><i class="fas fa-arrow-left"></i> Voltar</h6></a>
+            <div class="text-center"><img class="img-fluid " src="/arq/img/Logogrande.png" alt="Imagem"></div><br>
             {if="$error == 1"}
                 <div class="alert alert-danger" role="alert">
                     <i class="fas fa-times-circle"></i>
@@ -39,8 +40,8 @@
                     <i class="fas fa-key"></i> <label form="despassword">Senha:</label>
                     <input class="form-control" type="password"  name="despassword" placeholder="Digite a sua senha"><br>
                     <div class="text-right"> <input class="btn btn-success" type="submit" value="Login"> <br></div><br>
-                    <h4 class="text-center">Ainda não possui uma conta? <a href="/register">clique aqui</a> </h4><br>
-                    <div class="text-center"><img src="/arq/img/Logogrande.png" alt="Imagem" style="height: 8cm;"></div><br>
+                    <h4 class="text-center shake-horizontal">Ainda não possui uma conta? <a href="/register">clique aqui</a> </h4><br>
+                    <div class="img-fluid text-center "><img class="img-fluid" src="/arq/img/Logogrande.png" alt="Imagem"></div><br>
                 </div>    
             </form>
         </div>

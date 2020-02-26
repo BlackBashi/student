@@ -1,24 +1,28 @@
-<div class="container p-3 mb-2" style="background-color: white; height: 20cm;">
-    <div class="p-3 mb-2 text-dark">
-        <h1 class="text-center">Lista de salas:</h1><br>
-        <table class="table table-bordered table-dark text-center">
-            <thead>
-                <tr>
-                    <th scope="col" style="width: 3cm;">Descrição</th>
-                    <th scope="col" style="width: 6cm;">Turno</th>
-                    <th scope="col" style="width: 6cm;">Ano Letivo</th>
-                </tr>
-            </thead>
-            <tbody>
-                {loop="$turmas"}
-                <tr>
-                    <td>{$value.descricao}</a></td>
-                    <td>{$value.turno}</td>
-                    <td>{$value.anoletivo}</td>
-                    <td style="width: 4cm;"><a class="btn btn-info" href="/sala?turma={$value.id}" role="button"><i class="fas fa-pencil-alt"></i> Boletim</a></td>
-                </tr> 
-                {/loop}
-            </tbody>
-        </table>     
+<br><div class="container p-3 " style="background-color: white; width: 100%;">
+    <div class="row p-3 text-dark">
+        <div class="col-md-12 col-md-offset-1">
+            <h1 class="text-center" style="font: normal 90px BigNoodleTitling;">Lista de salas:</h1><br>
+        </div>
+        <div class="col-md-12 col-md-offset-1">
+            <table class="table table-bordered table-dark text-center">
+                <thead>
+                    <tr>
+                        <th scope="col" style="width: 3cm;">Descrição</th>
+                        <th scope="col" style="width: 6cm;">Turno</th>
+                        <th scope="col" style="width: 6cm;">Ano Letivo</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {loop="$turmas"}
+                    <tr>
+                        <td>{$value.descricao}</a></td>
+                        <td>{$value.turno}</td>
+                        <td>{$value.anoletivo}</td>
+                        <td style="width: 4cm;"><a class="btn btn-info" href="/sala?turma={$value.id}&b=1" role="button"><i class="fas fa-pencil-alt"></i> Boletim</a></td>
+                    </tr> 
+                    {/loop}
+                </tbody>
+            </table>  
+        </div>   
     </div>
 </div>

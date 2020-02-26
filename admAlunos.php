@@ -3,27 +3,50 @@ require_once("class/vendor/autoload.php");
 
 use Students\Classes\Page;
 use Students\Classes\DB\Sql;
-use Students\Classes\alunos;
-use Students\Classes\register;
+use Students\Classes\Register;
 use Students\Classes\Boletim;
 use Students\Classes\PageAdmin;
 
 
 $app->get('/adm/alunos', function(){
-	register::verifyLoginAdm();
-	$Register = new register;
+	Register::verifyLoginAdm();
+	$Boletim = new Boletim;
 
-	$alunos = $Register->listAllStudents();
+	$pagination = (isset($_GET["page"])) ?  (int)$_GET["page"] : 1;
+	if(isset($_GET["search"])){
+		$search = $Boletim->searchStudents($_GET["search"]);
+	}else{
+		$search = "";
+	}
+	$alunos = $Boletim->pageStudents($pagination);
+	$pages = [];
+	for ($i=1; $i <= $alunos["pages"]; $i++){
+		array_push($pages, [
+			'link'=>"/adm/alunos?page=" . $i,
+			'page'=>$i,
+		]);
+	}
 
-	//dd($alunos);
 	$page = new PageAdmin();
 	$page->setTpl("students", [
-		"aluno"=>$alunos
+		"aluno"=>$alunos["students"],
+		"pages"=>$pages,
+		"search"=>$search
 	]);
 });
 
+$app->post("/adm/alunos", function(){
+	if($_POST["search"] == ""){
+		header("Location: /adm/alunos");
+		die;
+	}
+
+	header("Location: /adm/alunos?&search=" . $_POST["search"]);
+	die;
+});
+
 $app->get('/adm/cadastrar/alunos', function(){
-	register::verifyLoginAdm();
+	Register::verifyLoginAdm();
 	$page = new PageAdmin();
 	$Boletim = new Boletim;
 
@@ -39,35 +62,38 @@ $app->get('/adm/cadastrar/alunos', function(){
 
 $app->post('/adm/cadastrar/alunos', function(){
 	$page = new PageAdmin();
-	$register = new register;
+	$Register = new Register;
 
 	if($_POST["desnome"]  == "" || $_POST["descpf"] == "" || $_POST["desturma"] == ""){
 		header("Location: /adm/cadastrar/alunos?error=1");
 		die;
 	}
-	$register->insertStudents($_POST["desnome"], $_POST["descpf"], $_POST["desturma"]);
+	$Register->insertStudents($_POST["desnome"], $_POST["descpf"], $_POST["desturma"]);
 	header("Location: /adm/cadastrar/alunos?success=1");
 	die;
 });
 
 $app->get('/adm/editaraluno', function(){
-	register::verifyLoginAdm();
-	$register = new register();
+	Register::verifyLoginAdm();
+	$Register = new Register();
+	$Boletim = new Boletim;
 	$page = new PageAdmin();
 
-	$alunos = $register->dadosAluno($_GET["id"]);
+	$alunos = $Register->dadosAluno($_GET["id"]);
 	$error = isset($_GET['error']) && $_GET['error'] ? 1 : 0;
 	$success = isset($_GET['success']) && $_GET['success'] ? 1 : 0;
+	$materias = $Boletim->turmas();
 	$page->setTpl("editarAluno", [
 		"aluno"=>$alunos,
 		"error"=>$error,
-		"success"=>$success
+		"success"=>$success,
+		"materias"=>$materias
 	]);
 });
 
 $app->post('/adm/editaraluno', function(){
-	register::verifyLoginAdm();
-	$Register = new register;
+	Register::verifyLoginAdm();
+	$Register = new Register;
 	
 	if($_POST["desnome"]  == "" || $_POST["descpf"] == "" || $_POST["desturma"] == ""){
 		header("Location: /adm/editaraluno?error=1&id={$_GET['id']}");
@@ -79,7 +105,7 @@ $app->post('/adm/editaraluno', function(){
 });
 
 $app->get('/adm/deletaraluno', function(){
-	register::verifyLoginAdm();
+	Register::verifyLoginAdm();
 	$Register = new Register();
 
 	$Register->deleteAluno($_GET["id"]);

@@ -1,26 +1,63 @@
 <div class="container">
     <div class="p-3 mb-2 bg-light text-dark">
         <h1 class="text-center" style="font: normal 100px BigNoodleTitling;">Notícias</h1><br>
-        {loop="$results"}
+        
         <div class="container">
             <div class="p-3 mb-2 bg-light text-dark">
                 <div class="container border border-dark shadow-lg" style="height: auto; background-color: bisque;">
-                    <div class="row">
-                        <div class="col-sm">
-                            <p class="text-center"> </p> 
-                            <h4 class="text-center" style="font: normal 40px BebasNeue-Regular;"><strong>{$value.destitulo}</strong></h4>
-                            <span class="text-muted small"><i class="fas fa-user"></i>
-                                {$value.desautor} - <i class="far fa-calendar-alt"></i> Publicado em: {$value.dtregister} </span>
-                            <p class="text-justify" style="font: normal 20px Butler_Medium;">{$value.desdetails} </p><br>      
-                        </div>   
-                    </div> 
-                    <div class="text-center"> 
-                        <img  src="/arq/img/upload/{$value.desimage}" style="height: 400px;"><br>
-                        <p></p>
+                    {loop="$results"}
+                    <div class="accordion" id="accordionExample">
+                        <div class="card">
+                            <div class="card-header" id="headingOne">
+                            <h2 class="mb-0">
+                                <button class="btn btn-link" type="button" data-toggle="collapse" data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+                                    <h4 class="text-center" style="font: normal 30px BebasNeue-Regular;"><strong>{$value.destitulo}</strong></h4>
+                                </button>
+                            </h2>
+                            </div>
+                        
+                            <div id="collapseOne" class="collapse show" aria-labelledby="headingOne" data-parent="#accordionExample">
+                                <div class="card-body">
+                                    <h4 class="text-center" style="font: normal 40px BebasNeue-Regular;"><strong>{$value.destitulo}</strong></h4>
+                                    <span class="text-muted small"><i class="fas fa-user"></i>
+                                        {$value.desautor} - <i class="far fa-calendar-alt"></i> Publicado em: {$value.dtregister} </span>
+                                    <p class="text-justify" style="font: normal 20px Butler_Medium;">{$value.desdetails} </p><br>
+                                    <div class="text-center"> 
+                                        <img  src="/arq/img/upload/{$value.desimage}" style="height: 400px;"><br>
+                                    </div>
+                                    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModalCenter">
+                                        ver imagem
+                                    </button>
+                                    <!-- Modal -->
+                                    <div class="modal fade bd-example-modal-xl" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="false">
+                                        {loop="$results"}
+                                        <div class="modal-dialog modal-xl" role="document">
+                                            <div class="modal-content">
+                                                <div class="modal-header">
+                                                    <h5 class="modal-title" id="exampleModalCenterTitle">{$value.destitulo}</h5>
+                                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                        <span aria-hidden="true">&times;</span>
+                                                    </button>
+                                                    </div>
+                                                    <div class="modal-body">
+                                                        
+                                                        <div class="text-center"> 
+                                                            <img  src="/arq/img/upload/{$value.desimage}"><br>
+                                                        </div>
+                                                    </div>
+                                                    <div class="modal-footer">
+                                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        {/loop}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
+                    {/loop}
                 </div>
-            </div>
-        </div>  
-        {/loop}
+            </div>  
+        </div>
     </div>
-</div>

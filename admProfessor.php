@@ -3,27 +3,52 @@ require_once("class/vendor/autoload.php");
 
 use Students\Classes\Page;
 use Students\Classes\DB\Sql;
-use Students\Classes\alunos;
-use Students\Classes\register;
+use Students\Classes\Register;
 use Students\Classes\Boletim;
 use Students\Classes\PageAdmin;
 
 
 $app->get('/adm/professores', function(){
-	register::verifyLoginAdm();
-	$Register = new register;
+	Register::verifyLoginAdm();
+	$Register = new Register;
+	$Boletim = new Boletim;
 
-	$professores = $Register->listAllProfessores();
+	$pagination = (isset($_GET["page"])) ?  (int)$_GET["page"] : 1;
+	if(isset($_GET["search"])){
+		$search = $Boletim->searchProf($_GET["search"]);
+	}else{
+		$search = "";
+	}
 
-	//dd($alunos);
+	$professores = $Boletim->pageTurma($pagination, 10);
+	$pages = [];
+	for ($i=1; $i <= $professores["pages"]; $i++){
+		array_push($pages, [
+			'link'=>"/adm/professores?page=" . $i,
+			'page'=>$i,
+		]);
+	}
+
 	$page = new PageAdmin();
 	$page->setTpl("professores", [
-		"professores"=>$professores
+		"professores"=>$professores["professores"],
+		"pages"=>$pages,
+		"search"=>$search
 	]);
 });
 
+$app->post("/adm/professores", function(){
+	if($_POST["search"] == ""){
+		header("Location: /adm/professores");
+		die;
+	}
+
+	header("Location: /adm/professores?&search=" . $_POST["search"]);
+	die;
+});
+
 $app->get('/adm/cadastrar/professor', function(){
-	register::verifyLoginAdm();
+	Register::verifyLoginAdm();
 	$page = new PageAdmin();
 	$Boletim = new Boletim;
 
@@ -39,23 +64,23 @@ $app->get('/adm/cadastrar/professor', function(){
 });
 
 $app->post('/adm/cadastrar/professor', function(){
-	$register = new register;
+	$Register = new Register;
 	
 	if($_POST["desnome"] == "" || $_POST["descpf"] == "" || $_POST["descodigo"] == ""){
 		header("Location: /adm/cadastrar/professor?error=1");
 		die;
 	}
-	$register->insertProfessor($_POST["desnome"], $_POST["descpf"], $_POST["descodigo"]);
+	$Register->insertProfessor($_POST["desnome"], $_POST["descpf"], $_POST["descodigo"]);
 		header("Location: /adm/cadastrar/professor?success=1");
 		die;
 });
 
 $app->get('/adm/editarprofessor', function(){
-	register::verifyLoginAdm();
-	$register = new register();
+	Register::verifyLoginAdm();
+	$Register = new Register();
 	$page = new PageAdmin();
 
-	$professor = $register->dadosProfessor($_GET["id"]);
+	$professor = $Register->dadosProfessor($_GET["id"]);
 	
 	$error = isset($_GET['error']) && $_GET['error'] ? 1 : 0;
 	$success = isset($_GET['success']) && $_GET['success'] ? 1 : 0;
@@ -67,8 +92,8 @@ $app->get('/adm/editarprofessor', function(){
 });
 
 $app->post('/adm/editarprofessor', function(){
-	register::verifyLoginAdm();
-	$Register = new register;
+	Register::verifyLoginAdm();
+	$Register = new Register;
 	
 	if($_POST["desnome"]  == "" || $_POST["descpf"] == "" || $_POST["descodigo"] == ""){
 		header("Location: /adm/editarprofessor?error=1&id={$_GET["id"]}");
@@ -80,7 +105,7 @@ $app->post('/adm/editarprofessor', function(){
 });
 
 $app->get('/adm/deletarprofessor', function(){
-	register::verifyLoginAdm();
+	Register::verifyLoginAdm();
 	$Register = new Register();
 
 	$Register->deleteProfessor($_GET["id"]);
@@ -89,7 +114,7 @@ $app->get('/adm/deletarprofessor', function(){
 });
 
 $app->get('/adm/addturma', function(){
-	$register = new register();
+	$Register = new Register();
 	$page = new PageAdmin();
 	$Boletim = new Boletim();
 

@@ -1,0 +1,39 @@
+<script src="/arq/js/Inicio.js"></script>
+<div class="col-9 col-md-7 text-dark">
+  <h1 class="text-center" style="font: normal BigNoodleTitling;">NOTíCIAS</h1>
+  <div class="bd-example">
+    <div id="carouselExampleCaptions" class="carousel slide" data-interval="90000">
+      <ol class="carousel-indicators">
+        <li data-target="#carouselExampleCaptions" data-slide-to="0" class="active"></li>
+        <li data-target="#carouselExampleCaptions" data-slide-to="1"></li>
+        <li data-target="#carouselExampleCaptions" data-slide-to="2"></li>
+      </ol>
+      <div class="carousel-inner">
+        <div class="carousel-item active">
+            <img src="/arq/img/logograndea.png" class="img-fluid d-block w-100" alt="...">
+            <div class="carousel-caption d-none d-md-block">
+            </div>
+        </div>
+        {loop="$results"}
+        <div class="carousel-item">
+          <a href="/noticia?id={$value.idnoticia}"><img src="/arq/img/upload/{$value.desimage}" class="d-block w-100 img-fluid" style="max-height: 15cm;"></a>
+          <div class="carousel-caption d-none d-md-block">
+            <div class="container text-truncate" style="background-color: rgba(255, 255, 255, 0.5)">
+                <h5>{$value.destitulo}</h5>
+                <p>{$value.desdetails}</p>
+            </div>
+          </div>
+        </div>
+        {/loop}
+      </div>
+      <a class="carousel-control-prev" href="#carouselExampleCaptions" role="button" data-slide="prev">
+        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+        <span class="sr-only">Previous</span>
+      </a>
+      <a class="carousel-control-next" href="#carouselExampleCaptions" role="button" data-slide="next">
+        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+        <span class="sr-only">Next</span>
+      </a>
+    </div>
+  </div>
+</div>

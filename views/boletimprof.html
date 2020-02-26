@@ -1,62 +1,56 @@
-<div class="container p-3 mb-2 text-dark" style="background-color: rgb(255, 255, 255); height: 20cm;">
-    <h1 class="text-center">Lista de alunos</h1><br>
-    <h2 class="text-center">{.$nome}</h2>
-    <div class="btn-toolbar" role="toolbar" aria-label="Toolbar with button groups">
-        <div class="btn-group mr-2" role="group" aria-label="First group">
+<div class="container p-3 mb-2 text-dark" style="background-color: rgb(255, 255, 255);">
+    <h1 class="text-center" style="font: normal 90px BigNoodleTitling;">NOTAS</h1><br>
+    <h1 class="text-center" style="font: normal 70px BigNoodleTitling;">{$nome} - {$bimestre}º Bimestre</h2>
+    <INPUT TYPE="hidden" id="idturma" VALUE="{$idturma}">
+    <INPUT TYPE="hidden" id="idprof" VALUE="{$idprof}">
+     <INPUT TYPE="hidden" id="bimestre" VALUE="{$bimestre}">
+    <div id="formulario">
+        <div class="btn-toolbar" role="toolbar" aria-label="Toolbar with button groups">
             <div class="dropdown">
                 <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                    Turno
-                </button> 
+                  Selecionar bimestre
+                </button>
                 <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                {loop="$turmas"}
-                    <a class="dropdown-item" href="#">{$value.turno}</a>
-                {/loop}
+                  <a class="dropdown-item" href="/sala?turma={$idturma}&b=1">1º Bimestre</a>
+                  <a class="dropdown-item" href="/sala?turma={$idturma}&b=2">2º Bimestre</a>
+                  <a class="dropdown-item" href="/sala?turma={$idturma}&b=3">3º Bimestre</a>
+                  <a class="dropdown-item" href="/sala?turma={$idturma}&b=4">4º Bimestre</a>
                 </div>
             </div>
-        </div>
-        <div class="btn-group mr-2" role="group" aria-label="Second group">
-            <div class="dropdown">
-                <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                    Bimestre
-                </button> 
-                <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                    {loop="$bimestre"}
-                    <a class="dropdown-item" href="#">{$value.bimestre}</a>
+            <div class="btn-group" role="group" aria-label="Third group">
+                <select id="idmateria" class="text-center form-control" style="width: 4cm;">
+                    {loop="$materias"}
+                    <option value="{$value.id}">{$value.descricao}</option>
                     {/loop}
-                </div>
+                </select>
             </div>
         </div>
-        <div class="btn-group" role="group" aria-label="Third group">
-            <div class="dropdown">
-                <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                    Matéria
-                </button> 
-                <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                    <a class="dropdown-item" href="#">{.$value.descricao}</a>
-                </div>
-            </div>
-        </div>
+        <p>
+            <table class="table table-bordered table-dark" id="tabelaEditavel">
+                <thead class="text-center" style="background-color: grey; font: bolder 25px BigNoodleTitling;">
+                    <tr>
+                        <th scope="col">ID</th>
+                        <th scope="col">Nome</th>
+                        <th scope="col">T</th>
+                        <th scope="col">C</th>
+                        <th scope="col">P</th>
+                        <th scope="col">M</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {loop="$alunos"}
+                    <tr>
+                        <td class="text-center">{$value.idstudent}</td>
+                        <td>{$value.desnome}</td>
+                        <td class="text-center editavel T" style="max-width: 1.5cm;" title="T">{$value.T}</td>
+                        <td class="text-center editavel C" style="max-width: 1.5cm;" title="C">{$value.C}</td>
+                        <td class="text-center editavel P" style="max-width: 1.5cm;" title="P">{$value.P}</td>
+                        <th class="text-center editavel" style="max-width: 1.5cm; background-color: yellow; color: black;" id="media" title="M">{$value.M}</th>
+                    </tr>
+                    {/loop}
+                </tbody>
+            </table>
+        </p>
     </div>
-    <p>
-        <table class="table table-bordered table-dark">
-            <thead>
-                <tr>
-                    <th scope="col">Nome</th>
-                    <th scope="col">T</th>
-                    <th scope="col">C</th>
-                    <th scope="col">P</th>
-                    <th scope="col">M</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr>
-                    <td>{.$value.desnome}</td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                </tr>
-            </tbody>
-        </table>
-    </p>     
+    <h3 id="resultado"></h3>
 </div>

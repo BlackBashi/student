@@ -1,16 +1,39 @@
-<div class="container">
-<div class="p-3 mb-2 text-dark" style="background-color: rgb(255, 255, 255)">
-    <h1 class="text-center">Boletim:</h1><br>
-    <table class="table table-bordered table-dark">
-        <thead>
-            <tr>
-                <th colspan="6">Nome: {.$value.desnome}</th>
-            </tr>
-            
-        </thead>
-        <tbody>
-
-        </tbody>
-      </table>     
+<div class="container p-3 mb-2 text-dark" style="background-color: rgb(255, 255, 255);">
+    <h1 class="text-center" style="font: normal 90px BigNoodleTitling;">NOTAS</h1><br>
+    <div id="formulario">
+        <div class="btn-toolbar" role="toolbar" aria-label="Toolbar with button groups">
+            <div class="dropdown">
+                <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                  Selecionar bimestre
+                </button>
+                <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                  <a class="dropdown-item" href="/boletim?b=1">1º Bimestre</a>
+                  <a class="dropdown-item" href="/boletim?b=2">2º Bimestre</a>
+                  <a class="dropdown-item" href="/boletim?b=3">3º Bimestre</a>
+                  <a class="dropdown-item" href="/boletim?b=4">4º Bimestre</a>
+                </div>
+            </div>
+        </div>
+        <p>
+            <table class="table table-bordered table-dark" id="tabelaEditavel">
+                <thead class="text-center" style="background-color: grey; font: bolder 25px BigNoodleTitling;">
+                    <tr>
+                        <th scope="col" colspan="2" style="font: normal 50px Roboto;">{$nome} - {$turma}</th>
+                    </tr>
+                    <tr>
+                        <th scope="col">Materia</th>
+                        <th scope="col">Média</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {loop="$materias"}
+                    <tr>
+                        <td class="text-center">{$value.descricao}</td>
+                        <td class="text-center">{$value.M}</td>
+                    </tr>
+                    {/loop}
+                </tbody>
+            </table>
+        </p>
     </div>
 </div>

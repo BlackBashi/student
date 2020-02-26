@@ -3,14 +3,13 @@ require_once("class/vendor/autoload.php");
 
 use Students\Classes\Page;
 use Students\Classes\DB\Sql;
-use Students\Classes\alunos;
-use Students\Classes\register;
+use Students\Classes\Register;
 use Students\Classes\PageAdmin;
 
 $app->get('/adm/noticias', function(){
-	register::verifyLoginAdm();
+	Register::verifyLoginAdm();
 	$Page = new PageAdmin();
-	$Register = new register();
+	$Register = new Register();
 
 	$results = $Register->listNoticias();
 	$Page->setTpl("noticias", [
@@ -20,7 +19,7 @@ $app->get('/adm/noticias', function(){
 
 
 $app->get('/adm/novanoticia', function(){
-	register::verifyLoginAdm();
+	Register::verifyLoginAdm();
 	$page = new PageAdmin();
 
 	$error = isset($_GET['error']) && $_GET['error'] ? 1 : 0;
@@ -33,7 +32,7 @@ $app->get('/adm/novanoticia', function(){
 });
 
 $app->post('/adm/novanoticia', function(){
-	register::verifyLoginAdm();
+	Register::verifyLoginAdm();
 	$Register = new Register();
 	
 	if($_POST['desautor'] === "" || $_POST['destitulo'] === "" || $_POST['desdetails'] === ""){
@@ -46,9 +45,9 @@ $app->post('/adm/novanoticia', function(){
 });
 
 $app->get('/adm/editarnoticia', function(){
-	register::verifyLoginAdm();
+	Register::verifyLoginAdm();
 	$page = new PageAdmin();
-	$Register = new register;
+	$Register = new Register;
 
 	$results = $Register->dadosNoticia($_GET["id"]);
 	$error = isset($_GET["error"]) && $_GET["error"] ? 1 : 0;
@@ -61,7 +60,7 @@ $app->get('/adm/editarnoticia', function(){
 });
 
 $app->post('/adm/editarnoticia', function(){
-	register::verifyLoginAdm();
+	Register::verifyLoginAdm();
 	$Register = new Register();
 
 	if($_POST["desautor"] == "" || $_POST["destitulo"] == "" || $_POST["desdetails"] == ""){
@@ -74,7 +73,7 @@ $app->post('/adm/editarnoticia', function(){
 });
 
 $app->get('/adm/deletarnoticia', function(){
-	register::verifyLoginAdm();
+	Register::verifyLoginAdm();
 	$Register = new Register();
 
 	$Register->deleteNoticia($_GET["id"]);

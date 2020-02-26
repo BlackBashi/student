@@ -3,7 +3,7 @@
 namespace Students\Classes;
 
 use Rain\Tpl;
-use Students\Classes\register;
+use Students\Classes\Register;
 
 class Page {
 
@@ -38,9 +38,13 @@ class Page {
             $professor = explode(" ", $desnomep);
         }
         //images
+        if(!isset($photop)){
+            $photoa = "";
+        }
         if(isset($_SESSION["user"]["desimage"])){
             $photoa = $_SESSION["user"]["desimage"];
         }
+
         if(isset($_SESSION["userProf"]["desimage"])){
             $photop = $_SESSION["userProf"]["desimage"];
         }
@@ -49,6 +53,9 @@ class Page {
             "aluno"=>$results[0],
             "photo"=>$photoa
         ]);
+        if(!isset($photop)){
+            $photop = "";
+        }
         if ($this->options["headerProf"] === true) $this->setTpl("headerProf", [
             "professor"=>$professor[0],
             "photo"=>$photop

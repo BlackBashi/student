@@ -1,27 +1,65 @@
 <div class="container">
-<div class="p-3 mb-2 text-dark" style="background-color: #CCCCCC">
-    <h1 class="text-center">Lista de alunos:</h1><br>
-    <table class="table table-bordered table-dark">
-        <thead>
-            <tr>
-                <th scope="col">Nome</th>
-                <th scope="col">CPF</th>
-                <th scope="col">Turma</th>
-            </tr>
-        </thead>
-        <tbody>
-            {loop="$aluno"}
-            <tr>
-                <td>{$value.desnome}</td>
-                <td>{$value.descpf}</td>
-                <td>{$value.descricao}</td>
-                <td style="width: 4cm;">
-                    <a class="btn btn-info" href="/adm/editaraluno?id={$value.idstudent}" role="button"><i class="fas fa-pencil-alt"></i> Editar</a>
-                    <a class="btn btn-danger" href="/adm/deletaraluno?id={$value.idstudent}" role="button"><i class="far fa-trash-alt"></i> Deletar</a>
-                </td> 
-            </tr> 
-            {/loop}
-        </tbody>
-      </table>     
-    </div>
+    <div class="row">
+        <div class="col-12 col-md-6 p-5 text-white text-center">
+            <h1 class="text-center">Lista de alunos:</h1><br>
+            <table class="table table-responsive table-bordered table-dark">
+                <thead>
+                    <tr>
+                        <td colspan="4">
+                            <form class="form-inline" method="POST" action="/adm/alunos">
+                                <div class="container text-center">
+                                <input class="form-control mr-sm-2 text-center" type="search" placeholder="Pesquisar" name="search">
+                                <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Pesquisar</button>
+                                </div>
+                            </form>
+                        </td>
+                    <tr>
+                    <tr>
+                        <th scope="">Nome</th>
+                        <th scope="">CPF</th>
+                        <th scope="">Turma</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {if="$search == ''"}
+                    {loop="$aluno"}
+                    <tr>
+                        <td>{$value.desnome}</td>
+                        <td>{$value.descpf}</td>
+                        <td>{$value.descricao}</td>
+                        <td style="width: 4cm;">
+                            <a class="btn btn-info" href="/adm/editaraluno?id={$value.idstudent}" role="button"><i class="fas fa-pencil-alt"></i> Editar</a>
+                            <a class="btn btn-danger" href="/adm/deletaraluno?id={$value.idstudent}" role="button"><i class="far fa-trash-alt"></i> Deletar</a>
+                        </td> 
+                    </tr> 
+                    {/loop}
+                    {/if}
+                    {if="$search != ''"}
+                    {loop="$search"}
+                    <tr>
+                        <td>{$value.desnome}</td>
+                        <td>{$value.descpf}</td>
+                        <td>{$value.descricao}</td>
+                        <td style="width: 4cm;">
+                            <a class="btn btn-info" href="/adm/editaraluno?id={$value.idstudent}" role="button"><i class="fas fa-pencil-alt"></i> Editar</a>
+                            <a class="btn btn-danger" href="/adm/deletaraluno?id={$value.idstudent}" role="button"><i class="far fa-trash-alt"></i> Deletar</a>
+                        </td> 
+                    </tr> 
+                    {/loop}
+                    {/if}
+                    <tr>
+                        <td colspan="3">
+                            <nav style="background-color: #CCCCCC; float: none;">
+                                <ul class="pagination pagination-sm">
+                                    {loop="$pages"}
+                                    <li class="page-item"><a class="page-link" href="{$value.link}">{$value.page}</a></li>
+                                    {/loop}
+                                </ul>
+                            </nav>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>     
+        </div>
+    </div>    
 </div>
